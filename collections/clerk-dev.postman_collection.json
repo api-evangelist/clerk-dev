@@ -1,0 +1,432 @@
+{
+  "info": {
+    "name": "Clerk Backend API",
+    "description": "Server-side management of Clerk authentication and user management resources - users, organizations, memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS, allowlist/blocklist, invitations, SAML & enterprise connections, OAuth applications, and Svix webhooks. Base URL: https://api.clerk.com/v1. Authenticate with your instance Secret Key (sk_test_... or sk_live_...) as a Bearer token. Grounded in Clerk's published OpenAPI spec (github.com/clerk/openapi-specs).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{secretKey}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.clerk.com/v1", "type": "string" },
+    { "key": "secretKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List all users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users?limit=10&offset=0", "host": ["{{baseUrl}}"], "path": ["users"], "query": [{ "key": "limit", "value": "10" }, { "key": "offset", "value": "0" }] },
+            "description": "Returns a paginated list of users."
+          }
+        },
+        {
+          "name": "Create a user",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email_address\": [\"jane@example.com\"],\n  \"password\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] },
+            "description": "Creates a new user."
+          }
+        },
+        {
+          "name": "Count users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users/count", "host": ["{{baseUrl}}"], "path": ["users", "count"] },
+            "description": "Returns the total count of users."
+          }
+        },
+        {
+          "name": "Retrieve a user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users/:user_id", "host": ["{{baseUrl}}"], "path": ["users", ":user_id"], "variable": [{ "key": "user_id", "value": "" }] },
+            "description": "Retrieves a user by ID."
+          }
+        },
+        {
+          "name": "Update a user",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/users/:user_id", "host": ["{{baseUrl}}"], "path": ["users", ":user_id"], "variable": [{ "key": "user_id", "value": "" }] },
+            "description": "Updates a user."
+          }
+        },
+        {
+          "name": "Delete a user",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users/:user_id", "host": ["{{baseUrl}}"], "path": ["users", ":user_id"], "variable": [{ "key": "user_id", "value": "" }] },
+            "description": "Deletes a user."
+          }
+        },
+        {
+          "name": "Ban a user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users/:user_id/ban", "host": ["{{baseUrl}}"], "path": ["users", ":user_id", "ban"], "variable": [{ "key": "user_id", "value": "" }] },
+            "description": "Bans a user, preventing sign-in."
+          }
+        },
+        {
+          "name": "Verify a user's password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"password\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/users/:user_id/verify_password", "host": ["{{baseUrl}}"], "path": ["users", ":user_id", "verify_password"], "variable": [{ "key": "user_id", "value": "" }] },
+            "description": "Checks a plaintext password against the user's stored password."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organizations",
+      "item": [
+        {
+          "name": "List all organizations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations", "host": ["{{baseUrl}}"], "path": ["organizations"] },
+            "description": "Lists all organizations."
+          }
+        },
+        {
+          "name": "Create an organization",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Acme Inc\",\n  \"created_by\": \"user_...\"\n}" },
+            "url": { "raw": "{{baseUrl}}/organizations", "host": ["{{baseUrl}}"], "path": ["organizations"] },
+            "description": "Creates a new organization."
+          }
+        },
+        {
+          "name": "Retrieve an organization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:organization_id", "host": ["{{baseUrl}}"], "path": ["organizations", ":organization_id"], "variable": [{ "key": "organization_id", "value": "" }] },
+            "description": "Retrieves an organization by ID or slug."
+          }
+        },
+        {
+          "name": "Delete an organization",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:organization_id", "host": ["{{baseUrl}}"], "path": ["organizations", ":organization_id"], "variable": [{ "key": "organization_id", "value": "" }] },
+            "description": "Deletes an organization."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organization Memberships",
+      "item": [
+        {
+          "name": "List organization memberships",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:organization_id/memberships", "host": ["{{baseUrl}}"], "path": ["organizations", ":organization_id", "memberships"], "variable": [{ "key": "organization_id", "value": "" }] },
+            "description": "Lists an organization's members."
+          }
+        },
+        {
+          "name": "Create an organization membership",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"user_id\": \"user_...\",\n  \"role\": \"org:member\"\n}" },
+            "url": { "raw": "{{baseUrl}}/organizations/:organization_id/memberships", "host": ["{{baseUrl}}"], "path": ["organizations", ":organization_id", "memberships"], "variable": [{ "key": "organization_id", "value": "" }] },
+            "description": "Adds a user to an organization with a role."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organization Invitations",
+      "item": [
+        {
+          "name": "Create an organization invitation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email_address\": \"invitee@example.com\",\n  \"role\": \"org:member\"\n}" },
+            "url": { "raw": "{{baseUrl}}/organizations/:organization_id/invitations", "host": ["{{baseUrl}}"], "path": ["organizations", ":organization_id", "invitations"], "variable": [{ "key": "organization_id", "value": "" }] },
+            "description": "Invites a user to join an organization."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sessions",
+      "item": [
+        {
+          "name": "List all sessions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sessions?status=active", "host": ["{{baseUrl}}"], "path": ["sessions"], "query": [{ "key": "status", "value": "active" }] },
+            "description": "Lists sessions, optionally filtered by user_id or status."
+          }
+        },
+        {
+          "name": "Retrieve a session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sessions/:session_id", "host": ["{{baseUrl}}"], "path": ["sessions", ":session_id"], "variable": [{ "key": "session_id", "value": "" }] },
+            "description": "Retrieves a session by ID."
+          }
+        },
+        {
+          "name": "Revoke a session",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sessions/:session_id/revoke", "host": ["{{baseUrl}}"], "path": ["sessions", ":session_id", "revoke"], "variable": [{ "key": "session_id", "value": "" }] },
+            "description": "Revokes a session."
+          }
+        },
+        {
+          "name": "Create a session token from a JWT template",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sessions/:session_id/tokens/:template_name", "host": ["{{baseUrl}}"], "path": ["sessions", ":session_id", "tokens", ":template_name"], "variable": [{ "key": "session_id", "value": "" }, { "key": "template_name", "value": "" }] },
+            "description": "Mints a session token shaped by a named JWT template."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clients",
+      "item": [
+        {
+          "name": "List all clients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/clients", "host": ["{{baseUrl}}"], "path": ["clients"] },
+            "description": "Lists device/browser clients."
+          }
+        },
+        {
+          "name": "Verify a client",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"token\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/clients/verify", "host": ["{{baseUrl}}"], "path": ["clients", "verify"] },
+            "description": "Verifies a client token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sign-ups & Tokens",
+      "item": [
+        {
+          "name": "Create a sign-in token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"user_id\": \"user_...\",\n  \"expires_in_seconds\": 2592000\n}" },
+            "url": { "raw": "{{baseUrl}}/sign_in_tokens", "host": ["{{baseUrl}}"], "path": ["sign_in_tokens"] },
+            "description": "Creates a single-use passwordless sign-in token."
+          }
+        },
+        {
+          "name": "Create an actor token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"user_id\": \"user_...\",\n  \"actor\": { \"sub\": \"user_admin\" }\n}" },
+            "url": { "raw": "{{baseUrl}}/actor_tokens", "host": ["{{baseUrl}}"], "path": ["actor_tokens"] },
+            "description": "Creates a token allowing an actor to impersonate a user."
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT Templates",
+      "item": [
+        {
+          "name": "List all JWT templates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/jwt_templates", "host": ["{{baseUrl}}"], "path": ["jwt_templates"] },
+            "description": "Lists JWT templates."
+          }
+        },
+        {
+          "name": "Create a JWT template",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"supabase\",\n  \"claims\": { \"role\": \"authenticated\" },\n  \"lifetime\": 60\n}" },
+            "url": { "raw": "{{baseUrl}}/jwt_templates", "host": ["{{baseUrl}}"], "path": ["jwt_templates"] },
+            "description": "Creates a JWT template."
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWKS",
+      "item": [
+        {
+          "name": "Retrieve the JSON Web Key Set",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/jwks", "host": ["{{baseUrl}}"], "path": ["jwks"] },
+            "description": "Returns public keys for verifying Clerk-issued JWTs. Unauthenticated and not rate limited."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Email & SMS",
+      "item": [
+        {
+          "name": "Create an email address",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"user_id\": \"user_...\",\n  \"email_address\": \"jane@example.com\",\n  \"verified\": true,\n  \"primary\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/email_addresses", "host": ["{{baseUrl}}"], "path": ["email_addresses"] },
+            "description": "Adds an email address to a user."
+          }
+        },
+        {
+          "name": "List email templates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/templates/email", "host": ["{{baseUrl}}"], "path": ["templates", "email"] },
+            "description": "Lists the instance's email templates."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Allowlist & Blocklist",
+      "item": [
+        {
+          "name": "List allowlist identifiers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/allowlist_identifiers", "host": ["{{baseUrl}}"], "path": ["allowlist_identifiers"] },
+            "description": "Lists allowlist identifiers."
+          }
+        },
+        {
+          "name": "Add an allowlist identifier",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"identifier\": \"jane@example.com\",\n  \"notify\": false\n}" },
+            "url": { "raw": "{{baseUrl}}/allowlist_identifiers", "host": ["{{baseUrl}}"], "path": ["allowlist_identifiers"] },
+            "description": "Adds an identifier to the allowlist."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invitations",
+      "item": [
+        {
+          "name": "Create an invitation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email_address\": \"jane@example.com\",\n  \"redirect_url\": \"https://app.example.com/sign-up\"\n}" },
+            "url": { "raw": "{{baseUrl}}/invitations", "host": ["{{baseUrl}}"], "path": ["invitations"] },
+            "description": "Emails a user an invitation to sign up. Limited to 100/hour."
+          }
+        }
+      ]
+    },
+    {
+      "name": "SAML & Enterprise Connections",
+      "item": [
+        {
+          "name": "List all SAML connections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/saml_connections", "host": ["{{baseUrl}}"], "path": ["saml_connections"] },
+            "description": "Lists SAML connections."
+          }
+        }
+      ]
+    },
+    {
+      "name": "OAuth Applications",
+      "item": [
+        {
+          "name": "List all OAuth applications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/oauth_applications", "host": ["{{baseUrl}}"], "path": ["oauth_applications"] },
+            "description": "Lists OAuth applications where Clerk is the identity provider."
+          }
+        },
+        {
+          "name": "Create an OAuth application",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"My App\",\n  \"redirect_uris\": [\"https://app.example.com/callback\"],\n  \"scopes\": \"profile email\"\n}" },
+            "url": { "raw": "{{baseUrl}}/oauth_applications", "host": ["{{baseUrl}}"], "path": ["oauth_applications"] },
+            "description": "Creates an OAuth application."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Create a Svix app",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhooks/svix", "host": ["{{baseUrl}}"], "path": ["webhooks", "svix"] },
+            "description": "Creates a Svix app so Clerk can deliver events. Clerk uses Svix for webhook delivery."
+          }
+        },
+        {
+          "name": "Create a Svix dashboard URL",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhooks/svix_url", "host": ["{{baseUrl}}"], "path": ["webhooks", "svix_url"] },
+            "description": "Generates a single-use Svix dashboard URL for managing webhook endpoints."
+          }
+        }
+      ]
+    }
+  ]
+}

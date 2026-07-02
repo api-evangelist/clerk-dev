@@ -1,0 +1,154 @@
+aid: clerk-dev
+name: Clerk
+review:
+  question: Does Clerk expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-02'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Clerk's own public HTTP surface - the
+    Backend API (https://api.clerk.com/v1) and the Frontend API
+    (https://{domain}.clerk.accounts.dev) - is request/response REST over HTTPS.
+    There is no server-push transport (WebSocket or SSE) on Clerk's own API to
+    model. Clerk's event-driven surface is delivered outbound as webhooks:
+    Clerk creates a Svix app per instance and Svix POSTs signed HTTP requests to
+    the endpoints you register. Those webhook payloads are Svix-delivered HTTP
+    POSTs, not a WebSocket stream Clerk hosts, so there is no Clerk-hosted
+    channel to describe in an AsyncAPI document.
+findings:
+  summary: |
+    Clerk does not publish a documented public WebSocket API. Clerk is an
+    authentication and user management platform. Its server-side Backend API
+    (base https://api.clerk.com/v1, authenticated with an instance Secret Key
+    as a Bearer token) manages users, organizations, memberships, sessions,
+    clients, sign-ups, JWT templates, JWKS, email/SMS, allowlist/blocklist,
+    invitations, SAML/enterprise connections, OAuth applications, and webhooks -
+    all as request/response REST over HTTPS. The client-facing Frontend API
+    (https://{domain}.clerk.accounts.dev, and clerk.<your-domain> in production)
+    drives sign-in/sign-up flows and is also REST over HTTPS. Real-time change
+    notifications are delivered as outbound webhooks powered by Svix
+    (svix.com): Clerk sends an HTTP POST to your configured endpoint for each
+    event (for example user.created, session.created, organization.updated),
+    with Svix signature headers and a retry schedule plus manual replay. No
+    realtime, bidirectional, or streaming WebSocket (ws:// or wss://) endpoint
+    is documented on either the Backend API or the Frontend API as of the
+    review date. Clerk's front-end SDKs keep client state fresh via polling and
+    short-lived session token refresh over HTTPS, not via a public WebSocket.
+  openApiSpec: |
+    Clerk publishes real, versioned OpenAPI specifications for its APIs at
+    github.com/clerk/openapi-specs. The Backend API specs live under bapi/ as
+    date-versioned files (2021-02-05.yml through 2026-05-12.yml); the latest,
+    bapi/2026-05-12.yml, is OpenAPI 3.0.3, titled "Clerk Backend API", version
+    2026-05-12, with a single server https://api.clerk.com/v1 and 40+ tag
+    groups. The Frontend API spec is under fapi/, and there are also platform/
+    and webhooks/ directories. The apis.yml entries and the OpenAPI in this repo
+    are a curated subset grounded in bapi/2026-05-12.yml.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.clerk.com/v1
+      documented: true
+      note: Backend API. Secret Key Bearer auth. Request/response only.
+    - protocol: REST
+      scheme: https
+      baseURL: https://{domain}.clerk.accounts.dev
+      documented: true
+      note: Frontend API for client sign-in/sign-up flows (clerk.<your-domain> in production). Request/response over HTTPS.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Outbound event delivery via Svix. Clerk POSTs signed HTTP requests (user.created, session.created, organization.updated, etc.) to your registered endpoints. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Clerk's Backend API, Frontend API, or webhooks documentation as of the review date.
+  webhookMechanism: |
+    Clerk uses Svix (svix.com) as its webhook delivery infrastructure. The
+    Backend API manages the Svix integration through three endpoints:
+    POST /v1/webhooks/svix creates the Svix app for the instance,
+    DELETE /v1/webhooks/svix deletes it, and POST /v1/webhooks/svix_url returns
+    a single-use URL into the Svix dashboard where webhook endpoints, event
+    subscriptions, signing secrets, delivery attempts, and manual replays are
+    managed. Events are delivered as HTTP POST requests with a JSON body and
+    Svix signature headers (svix-id, svix-timestamp, svix-signature); consumers
+    verify them with the Svix libraries. This is one-way, server-to-endpoint
+    HTTP delivery - not a WebSocket and not SSE.
+  endpointsConfirmedRest:
+    - GET    https://api.clerk.com/v1/users
+    - POST   https://api.clerk.com/v1/users
+    - GET    https://api.clerk.com/v1/users/count
+    - GET    https://api.clerk.com/v1/users/{user_id}
+    - PATCH  https://api.clerk.com/v1/users/{user_id}
+    - DELETE https://api.clerk.com/v1/users/{user_id}
+    - POST   https://api.clerk.com/v1/users/{user_id}/ban
+    - POST   https://api.clerk.com/v1/users/{user_id}/verify_password
+    - GET    https://api.clerk.com/v1/organizations
+    - POST   https://api.clerk.com/v1/organizations
+    - GET    https://api.clerk.com/v1/organizations/{organization_id}
+    - DELETE https://api.clerk.com/v1/organizations/{organization_id}
+    - GET    https://api.clerk.com/v1/organizations/{organization_id}/memberships
+    - POST   https://api.clerk.com/v1/organizations/{organization_id}/memberships
+    - POST   https://api.clerk.com/v1/organizations/{organization_id}/invitations
+    - GET    https://api.clerk.com/v1/sessions
+    - GET    https://api.clerk.com/v1/sessions/{session_id}
+    - POST   https://api.clerk.com/v1/sessions/{session_id}/revoke
+    - POST   https://api.clerk.com/v1/sessions/{session_id}/tokens/{template_name}
+    - GET    https://api.clerk.com/v1/clients
+    - POST   https://api.clerk.com/v1/clients/verify
+    - POST   https://api.clerk.com/v1/sign_in_tokens
+    - POST   https://api.clerk.com/v1/actor_tokens
+    - GET    https://api.clerk.com/v1/jwt_templates
+    - POST   https://api.clerk.com/v1/jwt_templates
+    - GET    https://api.clerk.com/v1/jwks
+    - POST   https://api.clerk.com/v1/email_addresses
+    - GET    https://api.clerk.com/v1/templates/{template_type}
+    - GET    https://api.clerk.com/v1/allowlist_identifiers
+    - POST   https://api.clerk.com/v1/allowlist_identifiers
+    - GET    https://api.clerk.com/v1/blocklist_identifiers
+    - POST   https://api.clerk.com/v1/invitations
+    - POST   https://api.clerk.com/v1/invitations/bulk
+    - GET    https://api.clerk.com/v1/saml_connections
+    - GET    https://api.clerk.com/v1/enterprise_connections
+    - GET    https://api.clerk.com/v1/oauth_applications
+    - POST   https://api.clerk.com/v1/oauth_applications
+    - POST   https://api.clerk.com/v1/webhooks/svix
+    - DELETE https://api.clerk.com/v1/webhooks/svix
+    - POST   https://api.clerk.com/v1/webhooks/svix_url
+  endpointsModeled: |
+    The OpenAPI in this repo (openapi/clerk-dev-openapi.yml) is a curated subset
+    of Clerk's published Backend API spec (bapi/2026-05-12.yml). Path and method
+    shapes are taken directly from that spec and are confirmed; request/response
+    schema bodies are lightweight, generic representations (many use
+    additionalProperties: true) rather than the full property-level schemas in
+    Clerk's authoritative spec. Consult github.com/clerk/openapi-specs for the
+    complete contract.
+sources:
+  - url: https://clerk.com/docs/reference/backend-api
+    type: APIReference
+    note: Backend API reference. Base https://api.clerk.com/v1, Secret Key Bearer auth, all REST. No WebSocket.
+  - url: https://github.com/clerk/openapi-specs
+    type: SourceCode
+    note: Clerk's published OpenAPI specs. bapi/2026-05-12.yml is the latest Backend API spec (OpenAPI 3.0.3, server https://api.clerk.com/v1).
+  - url: https://clerk.com/docs/webhooks/overview
+    type: Documentation
+    note: Confirms "Clerk uses Svix to send our webhooks"; delivery is HTTP POST with retries and manual replay. No WebSocket.
+  - url: https://clerk.com/docs/backend-requests/resources/rate-limits
+    type: Documentation
+    note: Backend API 1000 req/10s (prod), Frontend API per-IP limits, 429 with Retry-After; JWKS unlimited.
+  - url: https://clerk.com/pricing
+    type: Pricing
+    note: MAU-based pricing - Free (Hobby), Pro $25/mo, Business $300/mo, Enterprise custom, plus B2B/MAO and per-connection SSO add-ons.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Clerk's own public API is
+    request/response REST (Backend API and Frontend API) over HTTPS, and its
+    event-driven surface is outbound Svix-powered HTTP webhooks. No AsyncAPI
+    document was created because there is no Clerk-hosted server-push transport
+    (WebSocket or SSE) to model; webhook delivery is handled by Svix as
+    server-to-endpoint HTTP POST.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

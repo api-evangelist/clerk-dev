@@ -1,0 +1,165 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Clerk
+providerId: clerk-dev
+created: '2026-07-02'
+modified: '2026-07-02'
+reconciled: false
+tags:
+- Authentication
+- User Management
+- Identity
+- MAU
+- Plans
+description: >-
+  Clerk is priced primarily on monthly active users (MAU) rather than on API
+  calls - the Backend API, Frontend API, and webhooks are included with every
+  plan. The Free (Hobby) tier includes a monthly-active-user allowance at no
+  cost. The Pro plan adds a flat monthly platform fee plus a small per-additional
+  monthly-active-user overage above the included allowance, removes Clerk
+  branding, and includes production features. The Business plan adds more
+  dashboard seats and compliance (SOC 2). Enterprise is custom with SLAs, HIPAA
+  BAA, and dedicated support. B2B / organization features are metered separately
+  on monthly active organizations (MAO), and enterprise SSO connections
+  (SAML/OIDC) are billed per connection. Exact allowances and rates change often;
+  verify on the Clerk pricing page during reconciliation.
+notes: >-
+  Figures below reflect the Clerk pricing page as observed on 2026-07-02 and are
+  not reconciled. Clerk meters monthly active users (MAU); an MAU is a user who
+  signs in during the billing month. Monthly active organizations (MAO) are
+  metered for B2B features. Confirm current numbers at https://clerk.com/pricing.
+sources:
+- https://clerk.com/pricing
+- https://clerk.com/docs
+- https://clerk.com/docs/reference/backend-api
+plans:
+- id: clerk-free
+  name: Free (Hobby)
+  type: free
+  description: >-
+    Free-forever plan for side projects and evaluation. Includes a monthly
+    active user allowance at no cost, all core auth features, the full Backend
+    and Frontend APIs, and webhooks, with Clerk branding on components.
+  entries:
+  - label: Included Monthly Active Users
+    name: free_mau
+    type: usage
+    metric: monthly_active_users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0 up to the free-tier MAU allowance
+    userMultiplied: false
+  elements:
+  - name: Users and Organizations
+  - name: Backend API and Frontend API
+  - name: Svix Webhooks
+  - name: Multi-Factor Authentication
+- id: clerk-pro
+  name: Pro
+  type: paid
+  description: >-
+    Production plan with a flat monthly platform fee plus per-additional-MAU
+    overage above the included allowance. Removes Clerk branding, allows custom
+    domains, and includes one enterprise (SAML/OIDC) connection.
+  entries:
+  - label: Platform Fee
+    name: pro_platform_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $25/month ($20/month billed annually)
+    userMultiplied: false
+  - label: Additional Monthly Active Users
+    name: pro_mau_overage
+    type: usage
+    metric: monthly_active_users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$0.02 per additional MAU above the included allowance (volume discounts at higher tiers)
+    userMultiplied: true
+  elements:
+  - name: Remove Clerk Branding
+  - name: Custom Domain
+  - name: 1 Included Enterprise Connection
+  - name: Allowlist / Blocklist
+- id: clerk-business
+  name: Business
+  type: paid
+  description: >-
+    Scaling plan with the same MAU overage model as Pro plus additional
+    dashboard seats and compliance reporting (SOC 2).
+  entries:
+  - label: Platform Fee
+    name: business_platform_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $300/month ($250/month billed annually)
+    userMultiplied: false
+  - label: Additional Monthly Active Users
+    name: business_mau_overage
+    type: usage
+    metric: monthly_active_users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: same per-additional-MAU volume pricing as Pro
+    userMultiplied: true
+  elements:
+  - name: 10 Dashboard Seats
+  - name: SOC 2 Report
+  - name: Priority Support
+- id: clerk-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom plan for large deployments with a 99.99% uptime SLA, HIPAA compliance
+    with BAA, custom MAU volume, and dedicated support. Annual billing.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: 99.99% Uptime SLA
+  - name: HIPAA BAA
+  - name: Custom MAU Volume
+  - name: Dedicated Support
+addOns:
+- id: clerk-b2b-authentication
+  name: B2B Authentication
+  description: >-
+    Adds organization / B2B features metered on monthly active organizations
+    (MAO). Includes an MAO allowance with per-additional-organization overage.
+  price: $100/month ($85/month billed annually); includes 100 MAO, ~$1 per additional MAO
+- id: clerk-enhanced-administration
+  name: Enhanced Administration
+  description: Adds unlimited user impersonation and advanced admin capabilities.
+  price: $100/month ($85/month billed annually)
+- id: clerk-enterprise-connections
+  name: Additional Enterprise Connections
+  description: >-
+    Additional SAML / OIDC enterprise SSO connections beyond the one included
+    with Pro, billed per connection with volume discounts.
+  price: ~$75/month per additional connection
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

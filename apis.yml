@@ -1,0 +1,302 @@
+aid: clerk-dev
+url: https://raw.githubusercontent.com/api-evangelist/clerk-dev/refs/heads/main/apis.yml
+name: Clerk
+kind: company
+description: Clerk is a complete authentication and user management platform for web
+  and mobile apps, providing embeddable UI components, SDKs, and REST APIs to handle
+  sign-up and sign-in, users, organizations and memberships, sessions, multi-factor
+  authentication, JWTs and JWT templates, JWKS, SAML/enterprise SSO, OAuth
+  applications, and email/SMS verification. The Clerk Backend API (base
+  https://api.clerk.com/v1, secret-key authenticated) manages these resources
+  server-side, the Frontend API drives client auth flows, and change events are
+  delivered as Svix-powered HTTP webhooks.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Authentication
+- User Management
+- Identity
+- Sessions
+- Organizations
+- SSO
+- JWT
+- MFA
+created: '2026-07-02'
+modified: '2026-07-02'
+specificationVersion: '0.19'
+apis:
+- aid: clerk-dev:clerk-dev-users-api
+  name: Clerk Users API
+  tags:
+  - Users
+  - Identity
+  - User Management
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api
+    type: Documentation
+  - url: https://clerk.com/docs/reference/backend-api/tag/Users
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create, list, count, retrieve, update, and delete users, plus ban/unban,
+    lock/unlock, manage public/private/unsafe metadata, verify passwords and TOTP,
+    and remove MFA factors, passkeys, and external accounts.
+- aid: clerk-dev:clerk-dev-organizations-api
+  name: Clerk Organizations API
+  tags:
+  - Organizations
+  - B2B
+  - Tenancy
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete organizations, manage
+    organization metadata and logos, and read organization billing subscriptions
+    and credits for multi-tenant B2B applications.
+- aid: clerk-dev:clerk-dev-organization-memberships-api
+  name: Clerk Organization Memberships API
+  tags:
+  - Organizations
+  - Memberships
+  - Roles
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Add members to an organization, list an organization's memberships,
+    update a member's role, update membership metadata, and remove members from an
+    organization.
+- aid: clerk-dev:clerk-dev-organization-invitations-api
+  name: Clerk Organization Invitations API
+  tags:
+  - Organizations
+  - Invitations
+  - Onboarding
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create single and bulk organization invitations, list all or pending
+    invitations for an organization, retrieve an invitation, and revoke a pending
+    organization invitation.
+- aid: clerk-dev:clerk-dev-sessions-api
+  name: Clerk Sessions API
+  tags:
+  - Sessions
+  - Tokens
+  - Authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: List and create sessions, retrieve a session, refresh or revoke a
+    session, and mint short-lived session tokens - including tokens shaped by a
+    named JWT template - for authenticating requests to your own backend.
+- aid: clerk-dev:clerk-dev-clients-api
+  name: Clerk Clients API
+  tags:
+  - Clients
+  - Devices
+  - Sessions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Clients
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Clients
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: List clients, retrieve a client by ID, and verify a client token. A
+    client represents a browser or mobile device and tracks the sessions active on
+    that device.
+- aid: clerk-dev:clerk-dev-sign-ups-tokens-api
+  name: Clerk Sign-ups & Sign-in Tokens API
+  tags:
+  - Sign Up
+  - Sign In
+  - Tokens
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Retrieve and update sign-up attempts, mint and revoke one-time sign-in
+    tokens for passwordless entry, and issue and revoke actor tokens that let a
+    privileged user impersonate another user.
+- aid: clerk-dev:clerk-dev-jwt-templates-api
+  name: Clerk JWT Templates API
+  tags:
+  - JWT
+  - Templates
+  - Tokens
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete JWT templates - named claim
+    shapes used to mint custom session tokens for third-party integrations
+    (Supabase, Hasura, Firebase, and your own services).
+- aid: clerk-dev:clerk-dev-jwks-api
+  name: Clerk JWKS API
+  tags:
+  - JWKS
+  - Public Keys
+  - JWT
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Retrieve the JSON Web Key Set (JWKS) of public keys used to verify the
+    signatures of Clerk-issued JWTs. This endpoint is unauthenticated and not rate
+    limited.
+- aid: clerk-dev:clerk-dev-email-sms-api
+  name: Clerk Email & SMS API
+  tags:
+  - Email
+  - SMS
+  - Verification
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create and manage user email addresses and phone numbers, prepare and
+    attempt their verification, and read, edit, preview, revert, and toggle delivery
+    of the instance's email and SMS templates.
+- aid: clerk-dev:clerk-dev-allowlist-blocklist-api
+  name: Clerk Allowlist & Blocklist API
+  tags:
+  - Allowlist
+  - Blocklist
+  - Access Control
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: List, add, and delete allowlist and blocklist identifiers (email
+    addresses, phone numbers, or web3 wallets) to restrict which identifiers may or
+    may not sign up to an instance.
+- aid: clerk-dev:clerk-dev-invitations-api
+  name: Clerk Invitations API
+  tags:
+  - Invitations
+  - Onboarding
+  - Email
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create single and bulk application invitations that email a user a
+    link to sign up, list all invitations, and revoke a pending invitation.
+- aid: clerk-dev:clerk-dev-saml-enterprise-connections-api
+  name: Clerk SAML & Enterprise Connections API
+  tags:
+  - SAML
+  - SSO
+  - Enterprise
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete SAML connections and
+    enterprise (SAML/OIDC) connections that let organizations sign in via their own
+    identity provider, plus run connection test runs.
+- aid: clerk-dev:clerk-dev-oauth-applications-api
+  name: Clerk OAuth Applications API
+  tags:
+  - OAuth
+  - Applications
+  - Authorization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete OAuth applications where
+    Clerk acts as the identity provider, rotate client secrets, upload a logo,
+    revoke access tokens, and verify OAuth access tokens.
+- aid: clerk-dev:clerk-dev-webhooks-api
+  name: Clerk Webhooks API
+  tags:
+  - Webhooks
+  - Svix
+  - Events
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+  baseURL: https://api.clerk.com/v1
+  properties:
+  - url: https://clerk.com/docs/webhooks/overview
+    type: Documentation
+  - url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+    type: APIReference
+  - url: openapi/clerk-dev-openapi.yml
+    type: OpenAPI
+  description: Create and delete the Svix-powered webhook portal that delivers Clerk
+    events (user.created, session.created, organization.updated, and more) as signed
+    HTTP POST requests, and generate a Svix dashboard URL for managing endpoints.
+common:
+- type: GitHubOrganization
+  url: https://github.com/clerk
+- type: LinkedIn
+  url: https://www.linkedin.com/company/clerkinc
+- type: Website
+  url: https://clerk.com/
+- type: Documentation
+  url: https://clerk.com/docs
+- type: Plans
+  url: plans/clerk-dev-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/clerk-dev-rate-limits.yml
+- type: FinOps
+  url: finops/clerk-dev-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

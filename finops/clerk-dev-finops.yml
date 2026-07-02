@@ -1,0 +1,101 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Clerk
+providerId: clerk-dev
+created: '2026-07-02'
+modified: '2026-07-02'
+reconciled: false
+tags:
+- Authentication
+- User Management
+- Identity
+- MAU
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Clerk spend. Clerk is billed primarily on monthly active users
+  (MAU) rather than on API request volume - the Backend API, Frontend API, and
+  Svix webhooks are included with every plan, so cost scales with how many users
+  actually sign in each month, not with how chatty your integration is. The Free
+  (Hobby) tier covers a monthly MAU allowance at no charge. Paid plans (Pro,
+  Business) add a flat monthly platform fee plus a per-additional-MAU overage
+  above the included allowance. B2B / organization features are metered
+  separately on monthly active organizations (MAO), and enterprise SSO
+  connections (SAML/OIDC) are billed per connection. Enterprise agreements cover
+  custom MAU volume, SLAs, and HIPAA BAA.
+notes: >-
+  Per-unit MAU and MAO rates and allowances are not reconciled here; verify on
+  https://clerk.com/pricing. The dominant cost driver is monthly active users,
+  so cost management centers on understanding sign-in behavior rather than API
+  call optimization.
+sources:
+- https://clerk.com/pricing
+- https://clerk.com/docs
+- https://clerk.com/docs/reference/backend-api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Clerk
+serviceCategory: Identity and Access Management
+billingModel:
+  pricingCategory: Subscription-Plus-Usage
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Clerk
+  ServiceCategory: Identity and Access Management
+  ProviderName: Clerk
+  PublisherName: Clerk
+  InvoiceIssuerName: Clerk
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Subscription-Plus-Usage
+meters:
+- name: monthly_active_users
+  description: Users who sign in during the billing month (MAU). The primary billing driver above the plan's included allowance.
+  unit: users
+  aggregation: max
+  dimensions:
+  - instance
+  - plan
+- name: monthly_active_organizations
+  description: Organizations active during the billing month (MAO), metered for B2B / organization features.
+  unit: organizations
+  aggregation: max
+  dimensions:
+  - instance
+- name: platform_fee
+  description: Flat monthly plan fee for Pro / Business.
+  unit: subscription
+  aggregation: sum
+  dimensions:
+  - instance
+  - plan
+- name: enterprise_connections
+  description: SAML / OIDC enterprise SSO connections billed per connection above the included one.
+  unit: connections
+  aggregation: sum
+  dimensions:
+  - instance
+principles:
+- name: Visibility
+  description: Track monthly active users and monthly active organizations against the plan's included allowances; MAU, not API calls, drives the invoice.
+- name: Allocation
+  description: Map MAU and MAO to products or tenants using organization structure and metadata so identity cost attaches to the right cost center.
+- name: Optimization
+  description: Prune inactive users, avoid inflating MAU with automated / test sign-ins, and confirm whether B2B add-ons and extra enterprise connections are actually needed before enabling them.
+- name: Accountability
+  description: Review monthly MAU/MAO trend against plan tier thresholds and reassess Pro vs Business vs Enterprise as active users grow.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

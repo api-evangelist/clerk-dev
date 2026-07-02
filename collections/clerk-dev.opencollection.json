@@ -1,0 +1,271 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clerk Backend API",
+    "version": "2026-05-12"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{secretKey}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Users", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all users", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/users?limit=10&offset=0" },
+          "docs": "Returns a paginated list of users."
+        },
+        {
+          "info": { "name": "Create a user", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/users", "body": { "type": "json", "data": "{\n  \"email_address\": [\"jane@example.com\"]\n}" } },
+          "docs": "Creates a new user."
+        },
+        {
+          "info": { "name": "Count users", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/users/count" },
+          "docs": "Returns the total count of users."
+        },
+        {
+          "info": { "name": "Retrieve a user", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/users/:user_id", "params": [{ "name": "user_id", "value": "", "type": "path", "description": "The ID of the user." }] },
+          "docs": "Retrieves a user by ID."
+        },
+        {
+          "info": { "name": "Update a user", "type": "http" },
+          "http": { "method": "PATCH", "url": "https://api.clerk.com/v1/users/:user_id", "params": [{ "name": "user_id", "value": "", "type": "path", "description": "The ID of the user." }], "body": { "type": "json", "data": "{}" } },
+          "docs": "Updates a user."
+        },
+        {
+          "info": { "name": "Delete a user", "type": "http" },
+          "http": { "method": "DELETE", "url": "https://api.clerk.com/v1/users/:user_id", "params": [{ "name": "user_id", "value": "", "type": "path", "description": "The ID of the user." }] },
+          "docs": "Deletes a user."
+        },
+        {
+          "info": { "name": "Ban a user", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/users/:user_id/ban", "params": [{ "name": "user_id", "value": "", "type": "path", "description": "The ID of the user." }] },
+          "docs": "Bans a user, preventing sign-in."
+        },
+        {
+          "info": { "name": "Verify a user's password", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/users/:user_id/verify_password", "params": [{ "name": "user_id", "value": "", "type": "path", "description": "The ID of the user." }], "body": { "type": "json", "data": "{\n  \"password\": \"\"\n}" } },
+          "docs": "Checks a plaintext password against the user's stored password."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Organizations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all organizations", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/organizations" },
+          "docs": "Lists all organizations."
+        },
+        {
+          "info": { "name": "Create an organization", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/organizations", "body": { "type": "json", "data": "{\n  \"name\": \"Acme Inc\",\n  \"created_by\": \"user_...\"\n}" } },
+          "docs": "Creates a new organization."
+        },
+        {
+          "info": { "name": "Retrieve an organization", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/organizations/:organization_id", "params": [{ "name": "organization_id", "value": "", "type": "path", "description": "The ID or slug of the organization." }] },
+          "docs": "Retrieves an organization by ID or slug."
+        },
+        {
+          "info": { "name": "Delete an organization", "type": "http" },
+          "http": { "method": "DELETE", "url": "https://api.clerk.com/v1/organizations/:organization_id", "params": [{ "name": "organization_id", "value": "", "type": "path", "description": "The ID or slug of the organization." }] },
+          "docs": "Deletes an organization."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Organization Memberships", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List organization memberships", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/organizations/:organization_id/memberships", "params": [{ "name": "organization_id", "value": "", "type": "path", "description": "The ID of the organization." }] },
+          "docs": "Lists an organization's members."
+        },
+        {
+          "info": { "name": "Create an organization membership", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/organizations/:organization_id/memberships", "params": [{ "name": "organization_id", "value": "", "type": "path", "description": "The ID of the organization." }], "body": { "type": "json", "data": "{\n  \"user_id\": \"user_...\",\n  \"role\": \"org:member\"\n}" } },
+          "docs": "Adds a user to an organization with a role."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Organization Invitations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create an organization invitation", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/organizations/:organization_id/invitations", "params": [{ "name": "organization_id", "value": "", "type": "path", "description": "The ID of the organization." }], "body": { "type": "json", "data": "{\n  \"email_address\": \"invitee@example.com\",\n  \"role\": \"org:member\"\n}" } },
+          "docs": "Invites a user to join an organization."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Sessions", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all sessions", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/sessions?status=active", "params": [{ "name": "status", "value": "active", "type": "query", "description": "Filter by session status." }] },
+          "docs": "Lists sessions, optionally filtered by user_id or status."
+        },
+        {
+          "info": { "name": "Retrieve a session", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/sessions/:session_id", "params": [{ "name": "session_id", "value": "", "type": "path", "description": "The ID of the session." }] },
+          "docs": "Retrieves a session by ID."
+        },
+        {
+          "info": { "name": "Revoke a session", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/sessions/:session_id/revoke", "params": [{ "name": "session_id", "value": "", "type": "path", "description": "The ID of the session." }] },
+          "docs": "Revokes a session."
+        },
+        {
+          "info": { "name": "Create a session token from a JWT template", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/sessions/:session_id/tokens/:template_name", "params": [{ "name": "session_id", "value": "", "type": "path", "description": "The ID of the session." }, { "name": "template_name", "value": "", "type": "path", "description": "The JWT template name." }] },
+          "docs": "Mints a session token shaped by a named JWT template."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Clients", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all clients", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/clients" },
+          "docs": "Lists device/browser clients."
+        },
+        {
+          "info": { "name": "Verify a client", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/clients/verify", "body": { "type": "json", "data": "{\n  \"token\": \"\"\n}" } },
+          "docs": "Verifies a client token."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Sign-ups & Tokens", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create a sign-in token", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/sign_in_tokens", "body": { "type": "json", "data": "{\n  \"user_id\": \"user_...\",\n  \"expires_in_seconds\": 2592000\n}" } },
+          "docs": "Creates a single-use passwordless sign-in token."
+        },
+        {
+          "info": { "name": "Create an actor token", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/actor_tokens", "body": { "type": "json", "data": "{\n  \"user_id\": \"user_...\",\n  \"actor\": { \"sub\": \"user_admin\" }\n}" } },
+          "docs": "Creates a token allowing an actor to impersonate a user."
+        }
+      ]
+    },
+    {
+      "info": { "name": "JWT Templates", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all JWT templates", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/jwt_templates" },
+          "docs": "Lists JWT templates."
+        },
+        {
+          "info": { "name": "Create a JWT template", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/jwt_templates", "body": { "type": "json", "data": "{\n  \"name\": \"supabase\",\n  \"claims\": { \"role\": \"authenticated\" },\n  \"lifetime\": 60\n}" } },
+          "docs": "Creates a JWT template."
+        }
+      ]
+    },
+    {
+      "info": { "name": "JWKS", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Retrieve the JSON Web Key Set", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/jwks" },
+          "docs": "Returns public keys for verifying Clerk-issued JWTs. Unauthenticated and not rate limited."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Email & SMS", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create an email address", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/email_addresses", "body": { "type": "json", "data": "{\n  \"user_id\": \"user_...\",\n  \"email_address\": \"jane@example.com\",\n  \"verified\": true,\n  \"primary\": true\n}" } },
+          "docs": "Adds an email address to a user."
+        },
+        {
+          "info": { "name": "List email templates", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/templates/email" },
+          "docs": "Lists the instance's email templates."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Allowlist & Blocklist", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List allowlist identifiers", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/allowlist_identifiers" },
+          "docs": "Lists allowlist identifiers."
+        },
+        {
+          "info": { "name": "Add an allowlist identifier", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/allowlist_identifiers", "body": { "type": "json", "data": "{\n  \"identifier\": \"jane@example.com\",\n  \"notify\": false\n}" } },
+          "docs": "Adds an identifier to the allowlist."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Invitations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create an invitation", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/invitations", "body": { "type": "json", "data": "{\n  \"email_address\": \"jane@example.com\",\n  \"redirect_url\": \"https://app.example.com/sign-up\"\n}" } },
+          "docs": "Emails a user an invitation to sign up. Limited to 100/hour."
+        }
+      ]
+    },
+    {
+      "info": { "name": "SAML & Enterprise Connections", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all SAML connections", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/saml_connections" },
+          "docs": "Lists SAML connections."
+        }
+      ]
+    },
+    {
+      "info": { "name": "OAuth Applications", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all OAuth applications", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.clerk.com/v1/oauth_applications" },
+          "docs": "Lists OAuth applications where Clerk is the identity provider."
+        },
+        {
+          "info": { "name": "Create an OAuth application", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/oauth_applications", "body": { "type": "json", "data": "{\n  \"name\": \"My App\",\n  \"redirect_uris\": [\"https://app.example.com/callback\"],\n  \"scopes\": \"profile email\"\n}" } },
+          "docs": "Creates an OAuth application."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create a Svix app", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/webhooks/svix" },
+          "docs": "Creates a Svix app so Clerk can deliver events. Clerk uses Svix for webhook delivery."
+        },
+        {
+          "info": { "name": "Create a Svix dashboard URL", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.clerk.com/v1/webhooks/svix_url" },
+          "docs": "Generates a single-use Svix dashboard URL for managing webhook endpoints."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

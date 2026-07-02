@@ -1,0 +1,94 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Clerk
+providerId: clerk-dev
+created: '2026-07-02'
+modified: '2026-07-02'
+reconciled: false
+tags:
+- Authentication
+- User Management
+- Rate Limiting
+- Quotas
+description: >-
+  Clerk publishes explicit numeric rate limits for both the Backend API and the
+  Frontend API. Backend API requests are limited per application instance
+  (identified by Secret Key): production instances allow 1000 requests per 10
+  seconds (~100 req/sec) and development instances allow 100 requests per 10
+  seconds (~10 req/sec). Frontend API requests are limited per user (identified
+  by IP address). Several endpoints have tighter, purpose-specific limits -
+  invitations are capped per hour, and per-resource updates (user, organization,
+  membership) are capped at 10 requests per 10 seconds per resource. The JWKS
+  endpoint (GET /v1/jwks) is not rate limited. When a limit is exceeded the API
+  responds with HTTP 429 and a Retry-After header giving the cooldown in seconds.
+notes: >-
+  Numbers below reflect Clerk's published rate-limit documentation as observed
+  on 2026-07-02 and are not reconciled. Verify current values at
+  https://clerk.com/docs/backend-requests/resources/rate-limits.
+sources:
+- https://clerk.com/docs/backend-requests/resources/rate-limits
+- https://clerk.com/docs/reference/backend-api
+responseCodes:
+  throttled: 429
+limits:
+- name: Backend API (Production)
+  scope: instance
+  metric: requests
+  limit: 1000 per 10 seconds
+  notes: Per application instance, identified by the Secret Key. Roughly 100 requests/second.
+- name: Backend API (Development)
+  scope: instance
+  metric: requests
+  limit: 100 per 10 seconds
+  notes: Development instances are limited to roughly 10 requests/second.
+- name: Frontend API - Sign-in / Sign-up Creation
+  scope: user
+  metric: requests
+  limit: 5 per 10 seconds
+  notes: Per user, identified by IP address.
+- name: Frontend API - Verification Attempts
+  scope: user
+  metric: requests
+  limit: 3 per 10 seconds
+  notes: Sign-in / sign-up verification (OTP / code) attempts, per user by IP.
+- name: Resource Updates (User / Organization / Membership)
+  scope: resource
+  metric: requests
+  limit: 10 per 10 seconds
+  notes: Update operations are limited per individual resource.
+- name: Single Invitations
+  scope: instance
+  metric: requests
+  limit: 100 per hour
+  notes: POST /v1/invitations.
+- name: Bulk Invitations
+  scope: instance
+  metric: requests
+  limit: 25 per hour
+  notes: POST /v1/invitations/bulk.
+- name: Organization Invitations (Single)
+  scope: instance
+  metric: requests
+  limit: 250 per hour
+  notes: Single organization invitation creation.
+- name: Organization Invitations (Bulk)
+  scope: instance
+  metric: requests
+  limit: 50 per hour
+  notes: Bulk organization invitation creation.
+- name: JWKS Retrieval
+  scope: public
+  metric: requests
+  limit: no rate limit
+  notes: GET /v1/jwks is unauthenticated and not rate limited.
+policies:
+- name: Retry-After Header
+  description: On a 429 response, the Retry-After header indicates the number of seconds until the block expires.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor the Retry-After header rather than retrying immediately.
+- name: Cache JWKS
+  description: Cache the JWKS response and Clerk-issued token verification locally rather than fetching JWKS on every request, even though the endpoint is unlimited.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
