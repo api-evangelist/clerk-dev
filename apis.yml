@@ -283,6 +283,12 @@ apis:
     events (user.created, session.created, organization.updated, and more) as signed
     HTTP POST requests, and generate a Svix dashboard URL for managing endpoints.
 common:
+- type: VulnerabilityDisclosure
+  url: security/clerk-dev-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/clerk-dev-domain-security.yml
+- type: Authentication
+  url: authentication/clerk-dev-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/clerk
 - type: LinkedIn
@@ -297,6 +303,8 @@ common:
   url: rate-limits/clerk-dev-rate-limits.yml
 - type: FinOps
   url: finops/clerk-dev-finops.yml
+- url: https://clerk.com/blog
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
