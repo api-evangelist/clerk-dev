@@ -283,6 +283,8 @@ apis:
     events (user.created, session.created, organization.updated, and more) as signed
     HTTP POST requests, and generate a Svix dashboard URL for managing endpoints.
 common:
+- type: AgenticAccess
+  url: agentic-access/clerk-dev-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/clerk-dev-vulnerability-disclosure.yml
 - type: DomainSecurity
