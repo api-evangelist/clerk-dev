@@ -9,6 +9,6 @@ schemes:
   type: http
   scheme: bearer
   description: 'Your Clerk instance Secret Key (starts with sk_test_ or sk_live_) passed as
-    `Authorization: Bearer YOUR_SECRET_KEY`.'
+    `Authorization: Bearer [example key]`.'
   sources:
   - openapi/clerk-dev-openapi.yml
