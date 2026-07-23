@@ -1,0 +1,149 @@
+openapi: 3.0.3
+info:
+  title: Clerk Backend Allowlist & Blocklist JWT Templates API
+  description: 'The Clerk Backend API manages Clerk''s authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk''s published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.'
+  version: '2026-05-12'
+  contact:
+    name: Clerk
+    url: https://clerk.com
+  license:
+    name: Clerk Documentation
+    url: https://clerk.com/docs
+servers:
+- url: https://api.clerk.com/v1
+  description: Clerk Backend API
+security:
+- bearerAuth: []
+tags:
+- name: JWT Templates
+  description: Named claim templates for custom session tokens.
+paths:
+  /jwt_templates:
+    get:
+      operationId: listJWTTemplates
+      tags:
+      - JWT Templates
+      summary: List all JWT templates
+      responses:
+        '200':
+          description: A list of JWT templates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JWTTemplate'
+    post:
+      operationId: createJWTTemplate
+      tags:
+      - JWT Templates
+      summary: Create a JWT template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJWTTemplate'
+      responses:
+        '200':
+          description: The created JWT template.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTTemplate'
+  /jwt_templates/{template_id}:
+    parameters:
+    - name: template_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getJWTTemplate
+      tags:
+      - JWT Templates
+      summary: Retrieve a JWT template
+      responses:
+        '200':
+          description: The requested JWT template.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTTemplate'
+    patch:
+      operationId: updateJWTTemplate
+      tags:
+      - JWT Templates
+      summary: Update a JWT template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJWTTemplate'
+      responses:
+        '200':
+          description: The updated JWT template.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTTemplate'
+    delete:
+      operationId: deleteJWTTemplate
+      tags:
+      - JWT Templates
+      summary: Delete a JWT template
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+components:
+  schemas:
+    CreateJWTTemplate:
+      type: object
+      required:
+      - name
+      - claims
+      properties:
+        name:
+          type: string
+        claims:
+          type: object
+          additionalProperties: true
+        lifetime:
+          type: integer
+        allowed_clock_skew:
+          type: integer
+    JWTTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        claims:
+          type: object
+          additionalProperties: true
+        lifetime:
+          type: integer
+        created_at:
+          type: integer
+    DeletedObject:
+      type: object
+      properties:
+        object:
+          type: string
+        id:
+          type: string
+        deleted:
+          type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Your Clerk instance Secret Key (starts with sk_test_ or sk_live_) passed as `Authorization: Bearer YOUR_SECRET_KEY`.'

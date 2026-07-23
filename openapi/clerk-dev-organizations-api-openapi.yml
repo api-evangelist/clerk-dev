@@ -1,0 +1,260 @@
+openapi: 3.0.3
+info:
+  title: Clerk Backend Allowlist & Blocklist Organizations API
+  description: 'The Clerk Backend API manages Clerk''s authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk''s published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.'
+  version: '2026-05-12'
+  contact:
+    name: Clerk
+    url: https://clerk.com
+  license:
+    name: Clerk Documentation
+    url: https://clerk.com/docs
+servers:
+- url: https://api.clerk.com/v1
+  description: Clerk Backend API
+security:
+- bearerAuth: []
+tags:
+- name: Organizations
+  description: Multi-tenant organizations.
+paths:
+  /organizations:
+    get:
+      operationId: listOrganizations
+      tags:
+      - Organizations
+      summary: List all organizations
+      parameters:
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A list of organizations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
+                  total_count:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createOrganization
+      tags:
+      - Organizations
+      summary: Create an organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganization'
+      responses:
+        '200':
+          description: The created organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /organizations/{organization_id}:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: getOrganization
+      tags:
+      - Organizations
+      summary: Retrieve an organization
+      responses:
+        '200':
+          description: The requested organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateOrganization
+      tags:
+      - Organizations
+      summary: Update an organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+    delete:
+      operationId: deleteOrganization
+      tags:
+      - Organizations
+      summary: Delete an organization
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  /organizations/{organization_id}/metadata:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    patch:
+      operationId: mergeOrganizationMetadata
+      tags:
+      - Organizations
+      summary: Merge and update organization metadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
+      responses:
+        '200':
+          description: The updated organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of results to return (1-500, default 10).
+      schema:
+        type: integer
+        default: 10
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The ID or slug of the organization.
+      schema:
+        type: string
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of results to skip for pagination.
+      schema:
+        type: integer
+        default: 0
+  schemas:
+    Metadata:
+      type: object
+      properties:
+        public_metadata:
+          type: object
+          additionalProperties: true
+        private_metadata:
+          type: object
+          additionalProperties: true
+        unsafe_metadata:
+          type: object
+          additionalProperties: true
+    DeletedObject:
+      type: object
+      properties:
+        object:
+          type: string
+        id:
+          type: string
+        deleted:
+          type: boolean
+    CreateOrganization:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        created_by:
+          type: string
+        max_allowed_memberships:
+          type: integer
+        public_metadata:
+          type: object
+          additionalProperties: true
+    ClerkErrors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              long_message:
+                type: string
+              code:
+                type: string
+        clerk_trace_id:
+          type: string
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+          nullable: true
+        members_count:
+          type: integer
+        max_allowed_memberships:
+          type: integer
+        public_metadata:
+          type: object
+          additionalProperties: true
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+    Unauthorized:
+      description: Missing or invalid Secret Key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Your Clerk instance Secret Key (starts with sk_test_ or sk_live_) passed as `Authorization: Bearer YOUR_SECRET_KEY`.'

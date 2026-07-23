@@ -1,0 +1,124 @@
+openapi: 3.0.3
+info:
+  title: Clerk Backend Allowlist & Blocklist Clients API
+  description: 'The Clerk Backend API manages Clerk''s authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk''s published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.'
+  version: '2026-05-12'
+  contact:
+    name: Clerk
+    url: https://clerk.com
+  license:
+    name: Clerk Documentation
+    url: https://clerk.com/docs
+servers:
+- url: https://api.clerk.com/v1
+  description: Clerk Backend API
+security:
+- bearerAuth: []
+tags:
+- name: Clients
+  description: Browser / device clients tracking active sessions.
+paths:
+  /clients:
+    get:
+      operationId: getClientList
+      tags:
+      - Clients
+      summary: List all clients
+      responses:
+        '200':
+          description: A list of clients.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+  /clients/verify:
+    post:
+      operationId: verifyClient
+      tags:
+      - Clients
+      summary: Verify a client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: The verified client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+  /clients/{client_id}:
+    parameters:
+    - name: client_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getClient
+      tags:
+      - Clients
+      summary: Retrieve a client
+      responses:
+        '200':
+          description: The requested client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        session_ids:
+          type: array
+          items:
+            type: string
+        last_active_session_id:
+          type: string
+          nullable: true
+        created_at:
+          type: integer
+    ClerkErrors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              long_message:
+                type: string
+              code:
+                type: string
+        clerk_trace_id:
+          type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Your Clerk instance Secret Key (starts with sk_test_ or sk_live_) passed as `Authorization: Bearer YOUR_SECRET_KEY`.'

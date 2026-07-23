@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: Clerk Backend Allowlist & Blocklist Organization Invitations API
+  description: 'The Clerk Backend API manages Clerk''s authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk''s published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.'
+  version: '2026-05-12'
+  contact:
+    name: Clerk
+    url: https://clerk.com
+  license:
+    name: Clerk Documentation
+    url: https://clerk.com/docs
+servers:
+- url: https://api.clerk.com/v1
+  description: Clerk Backend API
+security:
+- bearerAuth: []
+tags:
+- name: Organization Invitations
+  description: Invitations to join an organization.
+paths:
+  /organizations/{organization_id}/invitations:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: listOrganizationInvitations
+      tags:
+      - Organization Invitations
+      summary: List organization invitations
+      responses:
+        '200':
+          description: A list of organization invitations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrganizationInvitation'
+    post:
+      operationId: createOrganizationInvitation
+      tags:
+      - Organization Invitations
+      summary: Create an organization invitation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email_address
+              - role
+              properties:
+                email_address:
+                  type: string
+                role:
+                  type: string
+                inviter_user_id:
+                  type: string
+                redirect_url:
+                  type: string
+      responses:
+        '200':
+          description: The created invitation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+  /organizations/{organization_id}/invitations/bulk:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    post:
+      operationId: createOrganizationInvitationBulk
+      tags:
+      - Organization Invitations
+      summary: Bulk create organization invitations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+      responses:
+        '200':
+          description: The created invitations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationInvitation'
+  /organizations/{organization_id}/invitations/{invitation_id}/revoke:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    - name: invitation_id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: revokeOrganizationInvitation
+      tags:
+      - Organization Invitations
+      summary: Revoke a pending organization invitation
+      responses:
+        '200':
+          description: The revoked invitation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+components:
+  schemas:
+    OrganizationInvitation:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        email_address:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: integer
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The ID or slug of the organization.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Your Clerk instance Secret Key (starts with sk_test_ or sk_live_) passed as `Authorization: Bearer YOUR_SECRET_KEY`.'

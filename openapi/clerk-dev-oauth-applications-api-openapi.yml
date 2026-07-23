@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: Clerk Backend Allowlist & Blocklist OAuth Applications API
+  description: 'The Clerk Backend API manages Clerk''s authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk''s published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.'
+  version: '2026-05-12'
+  contact:
+    name: Clerk
+    url: https://clerk.com
+  license:
+    name: Clerk Documentation
+    url: https://clerk.com/docs
+servers:
+- url: https://api.clerk.com/v1
+  description: Clerk Backend API
+security:
+- bearerAuth: []
+tags:
+- name: OAuth Applications
+  description: OAuth applications where Clerk is the identity provider.
+paths:
+  /oauth_applications:
+    get:
+      operationId: listOAuthApplications
+      tags:
+      - OAuth Applications
+      summary: List all OAuth applications
+      responses:
+        '200':
+          description: A list of OAuth applications.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OAuthApplication'
+    post:
+      operationId: createOAuthApplication
+      tags:
+      - OAuth Applications
+      summary: Create an OAuth application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                redirect_uris:
+                  type: array
+                  items:
+                    type: string
+                scopes:
+                  type: string
+      responses:
+        '200':
+          description: The created OAuth application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+  /oauth_applications/{oauth_application_id}:
+    parameters:
+    - name: oauth_application_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getOAuthApplication
+      tags:
+      - OAuth Applications
+      summary: Retrieve an OAuth application
+      responses:
+        '200':
+          description: The requested OAuth application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+    patch:
+      operationId: updateOAuthApplication
+      tags:
+      - OAuth Applications
+      summary: Update an OAuth application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated OAuth application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+    delete:
+      operationId: deleteOAuthApplication
+      tags:
+      - OAuth Applications
+      summary: Delete an OAuth application
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  /oauth_applications/{oauth_application_id}/rotate_secret:
+    parameters:
+    - name: oauth_application_id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: rotateOAuthApplicationSecret
+      tags:
+      - OAuth Applications
+      summary: Rotate an OAuth application client secret
+      responses:
+        '200':
+          description: The OAuth application with a new client secret.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+components:
+  schemas:
+    DeletedObject:
+      type: object
+      properties:
+        object:
+          type: string
+        id:
+          type: string
+        deleted:
+          type: boolean
+    OAuthApplication:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+          nullable: true
+        redirect_uris:
+          type: array
+          items:
+            type: string
+        scopes:
+          type: string
+        created_at:
+          type: integer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Your Clerk instance Secret Key (starts with sk_test_ or sk_live_) passed as `Authorization: Bearer YOUR_SECRET_KEY`.'

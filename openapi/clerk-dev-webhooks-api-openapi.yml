@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Clerk Backend Allowlist & Blocklist Webhooks API
+  description: 'The Clerk Backend API manages Clerk''s authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk''s published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.'
+  version: '2026-05-12'
+  contact:
+    name: Clerk
+    url: https://clerk.com
+  license:
+    name: Clerk Documentation
+    url: https://clerk.com/docs
+servers:
+- url: https://api.clerk.com/v1
+  description: Clerk Backend API
+security:
+- bearerAuth: []
+tags:
+- name: Webhooks
+  description: Svix-powered webhook portal management.
+paths:
+  /webhooks/svix:
+    post:
+      operationId: createSvixApp
+      tags:
+      - Webhooks
+      summary: Create a Svix app
+      description: Creates a Svix app for this instance so Clerk can deliver events to it. Clerk uses Svix as its webhook delivery infrastructure.
+      responses:
+        '200':
+          description: The Svix app.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    delete:
+      operationId: deleteSvixApp
+      tags:
+      - Webhooks
+      summary: Delete a Svix app
+      responses:
+        '204':
+          description: The Svix app was deleted.
+  /webhooks/svix_url:
+    post:
+      operationId: createSvixDashboardURL
+      tags:
+      - Webhooks
+      summary: Create a Svix dashboard URL
+      description: Generates a single-use URL to the Svix dashboard for managing webhook endpoints.
+      responses:
+        '200':
+          description: The Svix dashboard URL.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  svix_url:
+                    type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Your Clerk instance Secret Key (starts with sk_test_ or sk_live_) passed as `Authorization: Bearer YOUR_SECRET_KEY`.'
