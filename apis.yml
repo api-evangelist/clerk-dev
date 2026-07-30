@@ -10,7 +10,20 @@ description: Clerk is a complete authentication and user management platform for
   https://api.clerk.com/v1, secret-key authenticated) manages these resources
   server-side, the Frontend API drives client auth flows, and change events are
   delivered as Svix-powered HTTP webhooks.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/clerk-dev.png
 tags:
 - Authentication
 - User Management
@@ -24,264 +37,666 @@ created: '2026-07-02'
 modified: '2026-07-02'
 specificationVersion: '0.19'
 apis:
-- aid: clerk-dev:clerk-dev-users-api
-  name: Clerk Users API
-  tags:
-  - Users
-  - Identity
-  - User Management
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api
-    type: Documentation
-  - url: https://clerk.com/docs/reference/backend-api/tag/Users
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create, list, count, retrieve, update, and delete users, plus ban/unban,
-    lock/unlock, manage public/private/unsafe metadata, verify passwords and TOTP,
-    and remove MFA factors, passkeys, and external accounts.
-- aid: clerk-dev:clerk-dev-organizations-api
-  name: Clerk Organizations API
-  tags:
-  - Organizations
-  - B2B
-  - Tenancy
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Organizations
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Organizations
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create, list, retrieve, update, and delete organizations, manage
-    organization metadata and logos, and read organization billing subscriptions
-    and credits for multi-tenant B2B applications.
-- aid: clerk-dev:clerk-dev-organization-memberships-api
-  name: Clerk Organization Memberships API
-  tags:
-  - Organizations
-  - Memberships
-  - Roles
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Add members to an organization, list an organization's memberships,
-    update a member's role, update membership metadata, and remove members from an
-    organization.
-- aid: clerk-dev:clerk-dev-organization-invitations-api
-  name: Clerk Organization Invitations API
-  tags:
-  - Organizations
-  - Invitations
-  - Onboarding
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create single and bulk organization invitations, list all or pending
-    invitations for an organization, retrieve an invitation, and revoke a pending
-    organization invitation.
-- aid: clerk-dev:clerk-dev-sessions-api
-  name: Clerk Sessions API
-  tags:
-  - Sessions
-  - Tokens
-  - Authentication
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Sessions
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Sessions
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: List and create sessions, retrieve a session, refresh or revoke a
-    session, and mint short-lived session tokens - including tokens shaped by a
-    named JWT template - for authenticating requests to your own backend.
-- aid: clerk-dev:clerk-dev-clients-api
-  name: Clerk Clients API
-  tags:
-  - Clients
-  - Devices
-  - Sessions
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Clients
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Clients
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: List clients, retrieve a client by ID, and verify a client token. A
-    client represents a browser or mobile device and tracks the sessions active on
-    that device.
-- aid: clerk-dev:clerk-dev-sign-ups-tokens-api
-  name: Clerk Sign-ups & Sign-in Tokens API
-  tags:
-  - Sign Up
-  - Sign In
-  - Tokens
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Retrieve and update sign-up attempts, mint and revoke one-time sign-in
-    tokens for passwordless entry, and issue and revoke actor tokens that let a
-    privileged user impersonate another user.
-- aid: clerk-dev:clerk-dev-jwt-templates-api
-  name: Clerk JWT Templates API
-  tags:
-  - JWT
-  - Templates
-  - Tokens
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create, list, retrieve, update, and delete JWT templates - named claim
-    shapes used to mint custom session tokens for third-party integrations
-    (Supabase, Hasura, Firebase, and your own services).
-- aid: clerk-dev:clerk-dev-jwks-api
-  name: Clerk JWKS API
-  tags:
-  - JWKS
-  - Public Keys
-  - JWT
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/JWKS
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/JWKS
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Retrieve the JSON Web Key Set (JWKS) of public keys used to verify the
-    signatures of Clerk-issued JWTs. This endpoint is unauthenticated and not rate
-    limited.
-- aid: clerk-dev:clerk-dev-email-sms-api
-  name: Clerk Email & SMS API
-  tags:
-  - Email
-  - SMS
-  - Verification
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
-  baseURL: https://api.clerk.com/v1
-  properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create and manage user email addresses and phone numbers, prepare and
-    attempt their verification, and read, edit, preview, revert, and toggle delivery
-    of the instance's email and SMS templates.
 - aid: clerk-dev:clerk-dev-allowlist-blocklist-api
   name: Clerk Allowlist & Blocklist API
-  tags:
-  - Allowlist
-  - Blocklist
-  - Access Control
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  description: Identifiers permitted or denied from signing up.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
   baseURL: https://api.clerk.com/v1
+  tags:
+  - Allowlist & Blocklist
   properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: List, add, and delete allowlist and blocklist identifiers (email
-    addresses, phone numbers, or web3 wallets) to restrict which identifiers may or
-    may not sign up to an instance.
+  - type: OpenAPI
+    url: openapi/clerk-dev-allowlist-blocklist-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-clients-api
+  name: Clerk Clients API
+  description: Browser / device clients tracking active sessions.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-clients-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-email-sms-api
+  name: Clerk Email & SMS API
+  description: Email addresses, phone numbers, and message templates.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Email & SMS
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-email-sms-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
 - aid: clerk-dev:clerk-dev-invitations-api
   name: Clerk Invitations API
+  description: Application-level sign-up invitations.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
   tags:
   - Invitations
-  - Onboarding
-  - Email
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Invitations
-  baseURL: https://api.clerk.com/v1
   properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/Invitations
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create single and bulk application invitations that email a user a
-    link to sign up, list all invitations, and revoke a pending invitation.
-- aid: clerk-dev:clerk-dev-saml-enterprise-connections-api
-  name: Clerk SAML & Enterprise Connections API
+  - type: OpenAPI
+    url: openapi/clerk-dev-invitations-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-jwks-api
+  name: Clerk JWKS API
+  description: Public keys for verifying Clerk-issued JWTs.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
   tags:
-  - SAML
-  - SSO
-  - Enterprise
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
-  baseURL: https://api.clerk.com/v1
+  - JWKS
   properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create, list, retrieve, update, and delete SAML connections and
-    enterprise (SAML/OIDC) connections that let organizations sign in via their own
-    identity provider, plus run connection test runs.
+  - type: OpenAPI
+    url: openapi/clerk-dev-jwks-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-jwt-templates-api
+  name: Clerk JWT Templates API
+  description: Named claim templates for custom session tokens.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - JWT Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-jwt-templates-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
 - aid: clerk-dev:clerk-dev-oauth-applications-api
   name: Clerk OAuth Applications API
-  tags:
-  - OAuth
-  - Applications
-  - Authorization
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  description: OAuth applications where Clerk is the identity provider.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
   baseURL: https://api.clerk.com/v1
+  tags:
+  - OAuth Applications
   properties:
-  - url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create, list, retrieve, update, and delete OAuth applications where
-    Clerk acts as the identity provider, rotate client secrets, upload a logo,
-    revoke access tokens, and verify OAuth access tokens.
+  - type: OpenAPI
+    url: openapi/clerk-dev-oauth-applications-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-organization-invitations-api
+  name: Clerk Organization Invitations API
+  description: Invitations to join an organization.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Organization Invitations
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-organization-invitations-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-organization-memberships-api
+  name: Clerk Organization Memberships API
+  description: Members of an organization and their roles.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Organization Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-organization-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-organizations-api
+  name: Clerk Organizations API
+  description: Multi-tenant organizations.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-saml-enterprise-connections-api
+  name: Clerk SAML & Enterprise Connections API
+  description: Enterprise SSO connections.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - SAML & Enterprise Connections
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-saml-enterprise-connections-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-sessions-api
+  name: Clerk Sessions API
+  description: User sessions and session tokens.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-sign-ups-tokens-api
+  name: Clerk Sign-ups & Tokens API
+  description: Sign-up attempts, sign-in tokens, and actor tokens.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Sign-ups & Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-sign-ups-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
+- aid: clerk-dev:clerk-dev-users-api
+  name: Clerk Users API
+  description: Create and manage users and their identities.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/clerk-dev-users-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
 - aid: clerk-dev:clerk-dev-webhooks-api
   name: Clerk Webhooks API
+  description: Svix-powered webhook portal management.
+  humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
+  baseURL: https://api.clerk.com/v1
   tags:
   - Webhooks
-  - Svix
-  - Events
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://clerk.com/docs/reference/backend-api/tag/Webhooks
-  baseURL: https://api.clerk.com/v1
   properties:
-  - url: https://clerk.com/docs/webhooks/overview
-    type: Documentation
-  - url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
-    type: APIReference
-  - url: openapi/clerk-dev-openapi.yml
-    type: OpenAPI
-  description: Create and delete the Svix-powered webhook portal that delivers Clerk
-    events (user.created, session.created, organization.updated, and more) as signed
-    HTTP POST requests, and generate a Svix dashboard URL for managing endpoints.
+  - type: OpenAPI
+    url: openapi/clerk-dev-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://clerk.com/docs/reference/backend-api
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Users
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organizations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sessions
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Clients
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWT-Templates
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/JWKS
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Email-Addresses
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Allow-list-Block-list
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Invitations
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/SAML-Connections
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/OAuth-Applications
+  - type: Documentation
+    url: https://clerk.com/docs/webhooks/overview
+  - type: APIReference
+    url: https://clerk.com/docs/reference/backend-api/tag/Webhooks
 common:
 - type: AgenticAccess
   url: agentic-access/clerk-dev-agentic-access.yml
