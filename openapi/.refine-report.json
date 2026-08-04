@@ -1,0 +1,42 @@
+{
+  "provider": "clerk-dev",
+  "sources": [
+    "clerk-dev-allowlist-blocklist-api-openapi.yml",
+    "clerk-dev-clients-api-openapi.yml",
+    "clerk-dev-email-sms-api-openapi.yml",
+    "clerk-dev-invitations-api-openapi.yml",
+    "clerk-dev-jwks-api-openapi.yml",
+    "clerk-dev-jwt-templates-api-openapi.yml",
+    "clerk-dev-oauth-applications-api-openapi.yml",
+    "clerk-dev-organization-invitations-api-openapi.yml",
+    "clerk-dev-organization-memberships-api-openapi.yml",
+    "clerk-dev-organizations-api-openapi.yml",
+    "clerk-dev-saml-enterprise-connections-api-openapi.yml",
+    "clerk-dev-sessions-api-openapi.yml",
+    "clerk-dev-sign-ups-tokens-api-openapi.yml",
+    "clerk-dev-users-api-openapi.yml",
+    "clerk-dev-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "clerk-dev-allowlist-blocklist-api-openapi.yml",
+    "clerk-dev-clients-api-openapi.yml",
+    "clerk-dev-email-sms-api-openapi.yml",
+    "clerk-dev-invitations-api-openapi.yml",
+    "clerk-dev-jwks-api-openapi.yml",
+    "clerk-dev-jwt-templates-api-openapi.yml",
+    "clerk-dev-oauth-applications-api-openapi.yml",
+    "clerk-dev-organization-invitations-api-openapi.yml",
+    "clerk-dev-organization-memberships-api-openapi.yml",
+    "clerk-dev-organizations-api-openapi.yml",
+    "clerk-dev-saml-enterprise-connections-api-openapi.yml",
+    "clerk-dev-sessions-api-openapi.yml",
+    "clerk-dev-sign-ups-tokens-api-openapi.yml",
+    "clerk-dev-users-api-openapi.yml",
+    "clerk-dev-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

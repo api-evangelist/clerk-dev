@@ -1,0 +1,1956 @@
+openapi: 3.0.3
+info:
+  title: Clerk Backend API
+  description: >-
+    The Clerk Backend API manages Clerk's authentication and user management
+    resources server-side: users, organizations and memberships, sessions,
+    clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates,
+    allowlist/blocklist identifiers, invitations, SAML/enterprise connections,
+    OAuth applications, and Svix-powered webhooks. The base URL is
+    https://api.clerk.com/v1 and every request (except GET /jwks and the public
+    interstitial) is authenticated with your instance Secret Key passed as
+    `Authorization: Bearer sk_...`. This description is grounded in Clerk's
+    published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a
+    curated subset covering the primary resource groups; it does not enumerate
+    every parameter or schema property. Verify the current version-dated spec on
+    GitHub for the authoritative contract.
+  version: '2026-05-12'
+  contact:
+    name: Clerk
+    url: https://clerk.com
+  license:
+    name: Clerk Documentation
+    url: https://clerk.com/docs
+servers:
+  - url: https://api.clerk.com/v1
+    description: Clerk Backend API
+security:
+  - bearerAuth: []
+tags:
+  - name: Users
+    description: Create and manage users and their identities.
+  - name: Organizations
+    description: Multi-tenant organizations.
+  - name: Organization Memberships
+    description: Members of an organization and their roles.
+  - name: Organization Invitations
+    description: Invitations to join an organization.
+  - name: Sessions
+    description: User sessions and session tokens.
+  - name: Clients
+    description: Browser / device clients tracking active sessions.
+  - name: Sign-ups & Tokens
+    description: Sign-up attempts, sign-in tokens, and actor tokens.
+  - name: JWT Templates
+    description: Named claim templates for custom session tokens.
+  - name: JWKS
+    description: Public keys for verifying Clerk-issued JWTs.
+  - name: Email & SMS
+    description: Email addresses, phone numbers, and message templates.
+  - name: Allowlist & Blocklist
+    description: Identifiers permitted or denied from signing up.
+  - name: Invitations
+    description: Application-level sign-up invitations.
+  - name: SAML & Enterprise Connections
+    description: Enterprise SSO connections.
+  - name: OAuth Applications
+    description: OAuth applications where Clerk is the identity provider.
+  - name: Webhooks
+    description: Svix-powered webhook portal management.
+paths:
+  # ---------------- Users ----------------
+  /users:
+    get:
+      operationId: getUserList
+      tags: [Users]
+      summary: List all users
+      description: Returns a list of users, filterable and paginated with limit/offset and query parameters.
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createUser
+      tags: [Users]
+      summary: Create a user
+      description: Creates a new user. Your instance must be configured for the identifiers supplied.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '200':
+          description: The created user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /users/count:
+    get:
+      operationId: getUsersCount
+      tags: [Users]
+      summary: Count users
+      description: Returns a total count of users matching the given filters.
+      responses:
+        '200':
+          description: The total user count.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                  total_count:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /users/{user_id}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      operationId: getUser
+      tags: [Users]
+      summary: Retrieve a user
+      responses:
+        '200':
+          description: The requested user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateUser
+      tags: [Users]
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteUser
+      tags: [Users]
+      summary: Delete a user
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /users/{user_id}/ban:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    post:
+      operationId: banUser
+      tags: [Users]
+      summary: Ban a user
+      description: Marks the user as banned, preventing them from signing in.
+      responses:
+        '200':
+          description: The banned user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{user_id}/unban:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    post:
+      operationId: unbanUser
+      tags: [Users]
+      summary: Unban a user
+      responses:
+        '200':
+          description: The unbanned user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{user_id}/lock:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    post:
+      operationId: lockUser
+      tags: [Users]
+      summary: Lock a user
+      responses:
+        '200':
+          description: The locked user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{user_id}/unlock:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    post:
+      operationId: unlockUser
+      tags: [Users]
+      summary: Unlock a user
+      responses:
+        '200':
+          description: The unlocked user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{user_id}/metadata:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    patch:
+      operationId: updateUserMetadata
+      tags: [Users]
+      summary: Merge and update user metadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
+      responses:
+        '200':
+          description: The updated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{user_id}/verify_password:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    post:
+      operationId: verifyPassword
+      tags: [Users]
+      summary: Verify a user's password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Verification result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verified:
+                    type: boolean
+  # ---------------- Organizations ----------------
+  /organizations:
+    get:
+      operationId: listOrganizations
+      tags: [Organizations]
+      summary: List all organizations
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A list of organizations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
+                  total_count:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createOrganization
+      tags: [Organizations]
+      summary: Create an organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganization'
+      responses:
+        '200':
+          description: The created organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /organizations/{organization_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: getOrganization
+      tags: [Organizations]
+      summary: Retrieve an organization
+      responses:
+        '200':
+          description: The requested organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateOrganization
+      tags: [Organizations]
+      summary: Update an organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+    delete:
+      operationId: deleteOrganization
+      tags: [Organizations]
+      summary: Delete an organization
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  /organizations/{organization_id}/metadata:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    patch:
+      operationId: mergeOrganizationMetadata
+      tags: [Organizations]
+      summary: Merge and update organization metadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
+      responses:
+        '200':
+          description: The updated organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+  # ---------------- Organization Memberships ----------------
+  /organizations/{organization_id}/memberships:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: listOrganizationMemberships
+      tags: [Organization Memberships]
+      summary: List organization memberships
+      responses:
+        '200':
+          description: A list of organization memberships.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrganizationMembership'
+                  total_count:
+                    type: integer
+    post:
+      operationId: createOrganizationMembership
+      tags: [Organization Memberships]
+      summary: Create an organization membership
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, role]
+              properties:
+                user_id:
+                  type: string
+                role:
+                  type: string
+      responses:
+        '200':
+          description: The created membership.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMembership'
+  /organizations/{organization_id}/memberships/{user_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/UserId'
+    patch:
+      operationId: updateOrganizationMembership
+      tags: [Organization Memberships]
+      summary: Update an organization membership role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [role]
+              properties:
+                role:
+                  type: string
+      responses:
+        '200':
+          description: The updated membership.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMembership'
+    delete:
+      operationId: deleteOrganizationMembership
+      tags: [Organization Memberships]
+      summary: Remove a member from an organization
+      responses:
+        '200':
+          description: The removed membership.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMembership'
+  # ---------------- Organization Invitations ----------------
+  /organizations/{organization_id}/invitations:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: listOrganizationInvitations
+      tags: [Organization Invitations]
+      summary: List organization invitations
+      responses:
+        '200':
+          description: A list of organization invitations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrganizationInvitation'
+    post:
+      operationId: createOrganizationInvitation
+      tags: [Organization Invitations]
+      summary: Create an organization invitation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email_address, role]
+              properties:
+                email_address:
+                  type: string
+                role:
+                  type: string
+                inviter_user_id:
+                  type: string
+                redirect_url:
+                  type: string
+      responses:
+        '200':
+          description: The created invitation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+  /organizations/{organization_id}/invitations/bulk:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    post:
+      operationId: createOrganizationInvitationBulk
+      tags: [Organization Invitations]
+      summary: Bulk create organization invitations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+      responses:
+        '200':
+          description: The created invitations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationInvitation'
+  /organizations/{organization_id}/invitations/{invitation_id}/revoke:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: invitation_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: revokeOrganizationInvitation
+      tags: [Organization Invitations]
+      summary: Revoke a pending organization invitation
+      responses:
+        '200':
+          description: The revoked invitation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+  # ---------------- Sessions ----------------
+  /sessions:
+    get:
+      operationId: getSessionList
+      tags: [Sessions]
+      summary: List all sessions
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of sessions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+    post:
+      operationId: createSession
+      tags: [Sessions]
+      summary: Create a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+      responses:
+        '200':
+          description: The created session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+  /sessions/{session_id}:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    get:
+      operationId: getSession
+      tags: [Sessions]
+      summary: Retrieve a session
+      responses:
+        '200':
+          description: The requested session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /sessions/{session_id}/revoke:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: revokeSession
+      tags: [Sessions]
+      summary: Revoke a session
+      responses:
+        '200':
+          description: The revoked session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+  /sessions/{session_id}/tokens:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: createSessionToken
+      tags: [Sessions]
+      summary: Create a session token
+      description: Mints a short-lived session JWT for the given session.
+      responses:
+        '200':
+          description: The generated token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionToken'
+  /sessions/{session_id}/tokens/{template_name}:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+      - name: template_name
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createSessionTokenFromTemplate
+      tags: [Sessions]
+      summary: Create a session token from a JWT template
+      description: Mints a session token whose claims are shaped by the named JWT template.
+      responses:
+        '200':
+          description: The generated token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionToken'
+  # ---------------- Clients ----------------
+  /clients:
+    get:
+      operationId: getClientList
+      tags: [Clients]
+      summary: List all clients
+      responses:
+        '200':
+          description: A list of clients.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+  /clients/verify:
+    post:
+      operationId: verifyClient
+      tags: [Clients]
+      summary: Verify a client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: The verified client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+  /clients/{client_id}:
+    parameters:
+      - name: client_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getClient
+      tags: [Clients]
+      summary: Retrieve a client
+      responses:
+        '200':
+          description: The requested client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  # ---------------- Sign-ups & Tokens ----------------
+  /sign_ups/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getSignUp
+      tags: [Sign-ups & Tokens]
+      summary: Retrieve a sign-up
+      responses:
+        '200':
+          description: The requested sign-up attempt.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    patch:
+      operationId: updateSignUp
+      tags: [Sign-ups & Tokens]
+      summary: Update a sign-up
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated sign-up attempt.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /sign_in_tokens:
+    post:
+      operationId: createSignInToken
+      tags: [Sign-ups & Tokens]
+      summary: Create a sign-in token
+      description: Creates a single-use, time-limited token that authenticates a user without a password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id]
+              properties:
+                user_id:
+                  type: string
+                expires_in_seconds:
+                  type: integer
+      responses:
+        '200':
+          description: The created sign-in token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInToken'
+  /sign_in_tokens/{sign_in_token_id}/revoke:
+    parameters:
+      - name: sign_in_token_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: revokeSignInToken
+      tags: [Sign-ups & Tokens]
+      summary: Revoke a sign-in token
+      responses:
+        '200':
+          description: The revoked sign-in token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInToken'
+  /actor_tokens:
+    post:
+      operationId: createActorToken
+      tags: [Sign-ups & Tokens]
+      summary: Create an actor token
+      description: Creates a token allowing an actor (impersonator) to sign in as another user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, actor]
+              properties:
+                user_id:
+                  type: string
+                actor:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '200':
+          description: The created actor token.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /actor_tokens/{actor_token_id}/revoke:
+    parameters:
+      - name: actor_token_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: revokeActorToken
+      tags: [Sign-ups & Tokens]
+      summary: Revoke an actor token
+      responses:
+        '200':
+          description: The revoked actor token.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  # ---------------- JWT Templates ----------------
+  /jwt_templates:
+    get:
+      operationId: listJWTTemplates
+      tags: [JWT Templates]
+      summary: List all JWT templates
+      responses:
+        '200':
+          description: A list of JWT templates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JWTTemplate'
+    post:
+      operationId: createJWTTemplate
+      tags: [JWT Templates]
+      summary: Create a JWT template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJWTTemplate'
+      responses:
+        '200':
+          description: The created JWT template.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTTemplate'
+  /jwt_templates/{template_id}:
+    parameters:
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getJWTTemplate
+      tags: [JWT Templates]
+      summary: Retrieve a JWT template
+      responses:
+        '200':
+          description: The requested JWT template.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTTemplate'
+    patch:
+      operationId: updateJWTTemplate
+      tags: [JWT Templates]
+      summary: Update a JWT template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJWTTemplate'
+      responses:
+        '200':
+          description: The updated JWT template.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTTemplate'
+    delete:
+      operationId: deleteJWTTemplate
+      tags: [JWT Templates]
+      summary: Delete a JWT template
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  # ---------------- JWKS ----------------
+  /jwks:
+    get:
+      operationId: getJWKS
+      tags: [JWKS]
+      summary: Retrieve the JSON Web Key Set
+      description: >-
+        Returns the JSON Web Key Set of public keys used to verify Clerk-issued
+        JWT signatures. This endpoint is unauthenticated and not rate limited.
+      security: []
+      responses:
+        '200':
+          description: The JWKS document.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  keys:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+  # ---------------- Email & SMS ----------------
+  /email_addresses:
+    post:
+      operationId: createEmailAddress
+      tags: [Email & SMS]
+      summary: Create an email address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, email_address]
+              properties:
+                user_id:
+                  type: string
+                email_address:
+                  type: string
+                verified:
+                  type: boolean
+                primary:
+                  type: boolean
+      responses:
+        '200':
+          description: The created email address.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailAddress'
+  /email_addresses/{email_address_id}:
+    parameters:
+      - name: email_address_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getEmailAddress
+      tags: [Email & SMS]
+      summary: Retrieve an email address
+      responses:
+        '200':
+          description: The requested email address.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailAddress'
+    delete:
+      operationId: deleteEmailAddress
+      tags: [Email & SMS]
+      summary: Delete an email address
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  /phone_numbers:
+    post:
+      operationId: createPhoneNumber
+      tags: [Email & SMS]
+      summary: Create a phone number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, phone_number]
+              properties:
+                user_id:
+                  type: string
+                phone_number:
+                  type: string
+                verified:
+                  type: boolean
+      responses:
+        '200':
+          description: The created phone number.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /templates/{template_type}:
+    parameters:
+      - name: template_type
+        in: path
+        required: true
+        description: Either "email" or "sms".
+        schema:
+          type: string
+          enum: [email, sms]
+    get:
+      operationId: listTemplates
+      tags: [Email & SMS]
+      summary: List templates
+      responses:
+        '200':
+          description: A list of message templates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+  /templates/{template_type}/{slug}:
+    parameters:
+      - name: template_type
+        in: path
+        required: true
+        schema:
+          type: string
+          enum: [email, sms]
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getTemplate
+      tags: [Email & SMS]
+      summary: Retrieve a template
+      responses:
+        '200':
+          description: The requested template.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    put:
+      operationId: upsertTemplate
+      tags: [Email & SMS]
+      summary: Update a template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated template.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  # ---------------- Allowlist & Blocklist ----------------
+  /allowlist_identifiers:
+    get:
+      operationId: listAllowlistIdentifiers
+      tags: [Allowlist & Blocklist]
+      summary: List all allowlist identifiers
+      responses:
+        '200':
+          description: A list of allowlist identifiers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Identifier'
+    post:
+      operationId: createAllowlistIdentifier
+      tags: [Allowlist & Blocklist]
+      summary: Add an allowlist identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identifier]
+              properties:
+                identifier:
+                  type: string
+                notify:
+                  type: boolean
+      responses:
+        '200':
+          description: The created identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identifier'
+  /allowlist_identifiers/{identifier_id}:
+    parameters:
+      - name: identifier_id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: deleteAllowlistIdentifier
+      tags: [Allowlist & Blocklist]
+      summary: Delete an allowlist identifier
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  /blocklist_identifiers:
+    get:
+      operationId: listBlocklistIdentifiers
+      tags: [Allowlist & Blocklist]
+      summary: List all blocklist identifiers
+      responses:
+        '200':
+          description: A list of blocklist identifiers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Identifier'
+    post:
+      operationId: createBlocklistIdentifier
+      tags: [Allowlist & Blocklist]
+      summary: Add a blocklist identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identifier]
+              properties:
+                identifier:
+                  type: string
+      responses:
+        '200':
+          description: The created identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identifier'
+  /blocklist_identifiers/{identifier_id}:
+    parameters:
+      - name: identifier_id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: deleteBlocklistIdentifier
+      tags: [Allowlist & Blocklist]
+      summary: Delete a blocklist identifier
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  # ---------------- Invitations ----------------
+  /invitations:
+    get:
+      operationId: listInvitations
+      tags: [Invitations]
+      summary: List all invitations
+      responses:
+        '200':
+          description: A list of invitations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invitation'
+    post:
+      operationId: createInvitation
+      tags: [Invitations]
+      summary: Create an invitation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email_address]
+              properties:
+                email_address:
+                  type: string
+                redirect_url:
+                  type: string
+                public_metadata:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '200':
+          description: The created invitation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+  /invitations/bulk:
+    post:
+      operationId: createBulkInvitations
+      tags: [Invitations]
+      summary: Create multiple invitations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+      responses:
+        '200':
+          description: The created invitations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invitation'
+  /invitations/{invitation_id}/revoke:
+    parameters:
+      - name: invitation_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: revokeInvitation
+      tags: [Invitations]
+      summary: Revoke an invitation
+      responses:
+        '200':
+          description: The revoked invitation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+  # ---------------- SAML & Enterprise Connections ----------------
+  /saml_connections:
+    get:
+      operationId: listSAMLConnections
+      tags: [SAML & Enterprise Connections]
+      summary: List all SAML connections
+      responses:
+        '200':
+          description: A list of SAML connections.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SAMLConnection'
+    post:
+      operationId: createSAMLConnection
+      tags: [SAML & Enterprise Connections]
+      summary: Create a SAML connection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The created SAML connection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SAMLConnection'
+  /saml_connections/{saml_connection_id}:
+    parameters:
+      - name: saml_connection_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getSAMLConnection
+      tags: [SAML & Enterprise Connections]
+      summary: Retrieve a SAML connection
+      responses:
+        '200':
+          description: The requested SAML connection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SAMLConnection'
+    patch:
+      operationId: updateSAMLConnection
+      tags: [SAML & Enterprise Connections]
+      summary: Update a SAML connection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated SAML connection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SAMLConnection'
+    delete:
+      operationId: deleteSAMLConnection
+      tags: [SAML & Enterprise Connections]
+      summary: Delete a SAML connection
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  /enterprise_connections:
+    get:
+      operationId: listEnterpriseConnections
+      tags: [SAML & Enterprise Connections]
+      summary: List all enterprise connections
+      responses:
+        '200':
+          description: A list of enterprise connections.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    post:
+      operationId: createEnterpriseConnection
+      tags: [SAML & Enterprise Connections]
+      summary: Create an enterprise connection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The created enterprise connection.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  # ---------------- OAuth Applications ----------------
+  /oauth_applications:
+    get:
+      operationId: listOAuthApplications
+      tags: [OAuth Applications]
+      summary: List all OAuth applications
+      responses:
+        '200':
+          description: A list of OAuth applications.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OAuthApplication'
+    post:
+      operationId: createOAuthApplication
+      tags: [OAuth Applications]
+      summary: Create an OAuth application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                redirect_uris:
+                  type: array
+                  items:
+                    type: string
+                scopes:
+                  type: string
+      responses:
+        '200':
+          description: The created OAuth application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+  /oauth_applications/{oauth_application_id}:
+    parameters:
+      - name: oauth_application_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getOAuthApplication
+      tags: [OAuth Applications]
+      summary: Retrieve an OAuth application
+      responses:
+        '200':
+          description: The requested OAuth application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+    patch:
+      operationId: updateOAuthApplication
+      tags: [OAuth Applications]
+      summary: Update an OAuth application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated OAuth application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+    delete:
+      operationId: deleteOAuthApplication
+      tags: [OAuth Applications]
+      summary: Delete an OAuth application
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedObject'
+  /oauth_applications/{oauth_application_id}/rotate_secret:
+    parameters:
+      - name: oauth_application_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: rotateOAuthApplicationSecret
+      tags: [OAuth Applications]
+      summary: Rotate an OAuth application client secret
+      responses:
+        '200':
+          description: The OAuth application with a new client secret.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+  # ---------------- Webhooks ----------------
+  /webhooks/svix:
+    post:
+      operationId: createSvixApp
+      tags: [Webhooks]
+      summary: Create a Svix app
+      description: >-
+        Creates a Svix app for this instance so Clerk can deliver events to it.
+        Clerk uses Svix as its webhook delivery infrastructure.
+      responses:
+        '200':
+          description: The Svix app.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    delete:
+      operationId: deleteSvixApp
+      tags: [Webhooks]
+      summary: Delete a Svix app
+      responses:
+        '204':
+          description: The Svix app was deleted.
+  /webhooks/svix_url:
+    post:
+      operationId: createSvixDashboardURL
+      tags: [Webhooks]
+      summary: Create a Svix dashboard URL
+      description: Generates a single-use URL to the Svix dashboard for managing webhook endpoints.
+      responses:
+        '200':
+          description: The Svix dashboard URL.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  svix_url:
+                    type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Your Clerk instance Secret Key (starts with sk_test_ or sk_live_)
+        passed as `Authorization: Bearer YOUR_SECRET_KEY`.
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of results to return (1-500, default 10).
+      schema:
+        type: integer
+        default: 10
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of results to skip for pagination.
+      schema:
+        type: integer
+        default: 0
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      description: The ID of the user.
+      schema:
+        type: string
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The ID or slug of the organization.
+      schema:
+        type: string
+    SessionId:
+      name: session_id
+      in: path
+      required: true
+      description: The ID of the session.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid Secret Key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+    TooManyRequests:
+      description: Rate limit exceeded. See the Retry-After header for the cooldown in seconds.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClerkErrors'
+  schemas:
+    ClerkErrors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              long_message:
+                type: string
+              code:
+                type: string
+        clerk_trace_id:
+          type: string
+    DeletedObject:
+      type: object
+      properties:
+        object:
+          type: string
+        id:
+          type: string
+        deleted:
+          type: boolean
+    Metadata:
+      type: object
+      properties:
+        public_metadata:
+          type: object
+          additionalProperties: true
+        private_metadata:
+          type: object
+          additionalProperties: true
+        unsafe_metadata:
+          type: object
+          additionalProperties: true
+    CreateUser:
+      type: object
+      properties:
+        email_address:
+          type: array
+          items:
+            type: string
+        phone_number:
+          type: array
+          items:
+            type: string
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        password:
+          type: string
+        skip_password_checks:
+          type: boolean
+        public_metadata:
+          type: object
+          additionalProperties: true
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        username:
+          type: string
+          nullable: true
+        first_name:
+          type: string
+          nullable: true
+        last_name:
+          type: string
+          nullable: true
+        primary_email_address_id:
+          type: string
+          nullable: true
+        banned:
+          type: boolean
+        locked:
+          type: boolean
+        two_factor_enabled:
+          type: boolean
+        public_metadata:
+          type: object
+          additionalProperties: true
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+    CreateOrganization:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        created_by:
+          type: string
+        max_allowed_memberships:
+          type: integer
+        public_metadata:
+          type: object
+          additionalProperties: true
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+          nullable: true
+        members_count:
+          type: integer
+        max_allowed_memberships:
+          type: integer
+        public_metadata:
+          type: object
+          additionalProperties: true
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+    OrganizationMembership:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        role:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+        public_metadata:
+          type: object
+          additionalProperties: true
+        created_at:
+          type: integer
+    OrganizationInvitation:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        email_address:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: integer
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        user_id:
+          type: string
+        client_id:
+          type: string
+        status:
+          type: string
+        last_active_at:
+          type: integer
+        expire_at:
+          type: integer
+        created_at:
+          type: integer
+    SessionToken:
+      type: object
+      properties:
+        object:
+          type: string
+        jwt:
+          type: string
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        session_ids:
+          type: array
+          items:
+            type: string
+        last_active_session_id:
+          type: string
+          nullable: true
+        created_at:
+          type: integer
+    SignInToken:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        user_id:
+          type: string
+        token:
+          type: string
+        status:
+          type: string
+    JWTTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        claims:
+          type: object
+          additionalProperties: true
+        lifetime:
+          type: integer
+        created_at:
+          type: integer
+    CreateJWTTemplate:
+      type: object
+      required: [name, claims]
+      properties:
+        name:
+          type: string
+        claims:
+          type: object
+          additionalProperties: true
+        lifetime:
+          type: integer
+        allowed_clock_skew:
+          type: integer
+    EmailAddress:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        email_address:
+          type: string
+        verification:
+          type: object
+          nullable: true
+          additionalProperties: true
+    Identifier:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        identifier:
+          type: string
+        identifier_type:
+          type: string
+        created_at:
+          type: integer
+    Invitation:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        email_address:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: integer
+    SAMLConnection:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        domain:
+          type: string
+        active:
+          type: boolean
+        provider:
+          type: string
+        created_at:
+          type: integer
+    OAuthApplication:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+          nullable: true
+        redirect_uris:
+          type: array
+          items:
+            type: string
+        scopes:
+          type: string
+        created_at:
+          type: integer
