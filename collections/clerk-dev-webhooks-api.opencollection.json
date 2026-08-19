@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clerk Backend Allowlist & Blocklist Webhooks API",
+    "version": "2026-05-12"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Svix app",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/webhooks/svix"
+          },
+          "docs": "Creates a Svix app for this instance so Clerk can deliver events to it. Clerk uses Svix as its webhook delivery infrastructure."
+        },
+        {
+          "info": {
+            "name": "Delete a Svix app",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.clerk.com/v1/webhooks/svix"
+          },
+          "docs": "Delete a Svix app"
+        },
+        {
+          "info": {
+            "name": "Create a Svix dashboard URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/webhooks/svix_url"
+          },
+          "docs": "Generates a single-use URL to the Svix dashboard for managing webhook endpoints."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

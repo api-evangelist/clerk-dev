@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clerk Backend Allowlist & Blocklist API",
+    "version": "2026-05-12"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Allowlist & Blocklist",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all allowlist identifiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/allowlist_identifiers"
+          },
+          "docs": "List all allowlist identifiers"
+        },
+        {
+          "info": {
+            "name": "Add an allowlist identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/allowlist_identifiers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add an allowlist identifier"
+        },
+        {
+          "info": {
+            "name": "Delete an allowlist identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.clerk.com/v1/allowlist_identifiers/:identifier_id",
+            "params": [
+              {
+                "name": "identifier_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an allowlist identifier"
+        },
+        {
+          "info": {
+            "name": "List all blocklist identifiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/blocklist_identifiers"
+          },
+          "docs": "List all blocklist identifiers"
+        },
+        {
+          "info": {
+            "name": "Add a blocklist identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/blocklist_identifiers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a blocklist identifier"
+        },
+        {
+          "info": {
+            "name": "Delete a blocklist identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.clerk.com/v1/blocklist_identifiers/:identifier_id",
+            "params": [
+              {
+                "name": "identifier_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a blocklist identifier"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

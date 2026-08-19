@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clerk Backend Allowlist & Blocklist JWT Templates API",
+    "version": "2026-05-12"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "JWT Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all JWT templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/jwt_templates"
+          },
+          "docs": "List all JWT templates"
+        },
+        {
+          "info": {
+            "name": "Create a JWT template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/jwt_templates",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a JWT template"
+        },
+        {
+          "info": {
+            "name": "Retrieve a JWT template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/jwt_templates/:template_id",
+            "params": [
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a JWT template"
+        },
+        {
+          "info": {
+            "name": "Update a JWT template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.clerk.com/v1/jwt_templates/:template_id",
+            "params": [
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a JWT template"
+        },
+        {
+          "info": {
+            "name": "Delete a JWT template",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.clerk.com/v1/jwt_templates/:template_id",
+            "params": [
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a JWT template"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

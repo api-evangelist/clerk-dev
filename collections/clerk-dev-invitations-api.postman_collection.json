@@ -1,0 +1,405 @@
+{
+  "item": [
+    {
+      "id": "f94fa032-ab16-4b63-82a5-3ab6ff9aec15",
+      "name": "Invitations",
+      "description": {
+        "content": "Application-level sign-up invitations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "47398ca9-ecf5-446f-a72f-e9b48bafc9c5",
+          "name": "List all invitations",
+          "request": {
+            "name": "List all invitations",
+            "description": {},
+            "url": {
+              "path": [
+                "invitations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64da526e-08bc-4132-b15b-bee7ae9b4148",
+              "name": "A list of invitations.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invitations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"object\": \"string\",\n    \"email_address\": \"string\",\n    \"status\": \"string\",\n    \"created_at\": 1020\n  },\n  {\n    \"id\": \"string\",\n    \"object\": \"string\",\n    \"email_address\": \"string\",\n    \"status\": \"string\",\n    \"created_at\": 9817\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "866bbcd2-c680-4c04-8707-87ef297ed782",
+          "name": "Create an invitation",
+          "request": {
+            "name": "Create an invitation",
+            "description": {},
+            "url": {
+              "path": [
+                "invitations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_address\": \"<string>\",\n  \"redirect_url\": \"<string>\",\n  \"public_metadata\": {\n    \"key_0\": 3652,\n    \"key_1\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "039caf7a-5d65-457a-b940-91168a8cb8e9",
+              "name": "The created invitation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invitations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email_address\": \"<string>\",\n  \"redirect_url\": \"<string>\",\n  \"public_metadata\": {\n    \"key_0\": true,\n    \"key_1\": 4614.0329093914215,\n    \"key_2\": \"string\",\n    \"key_3\": 3798.442644800556\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"object\": \"string\",\n  \"email_address\": \"string\",\n  \"status\": \"string\",\n  \"created_at\": 8444\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "02313a57-a933-4234-98f8-939b108a3e48",
+          "name": "Create multiple invitations",
+          "request": {
+            "name": "Create multiple invitations",
+            "description": {},
+            "url": {
+              "path": [
+                "invitations",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"key_0\": 3755.496328531972,\n    \"key_1\": 1532.5261647760358\n  },\n  {\n    \"key_0\": 5089,\n    \"key_1\": 1881.1200713886633,\n    \"key_2\": 5334.870499607645\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "45f5e855-7014-4541-bfb8-c661cf6afb15",
+              "name": "The created invitations.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invitations",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"key_0\": 7526.409102956819\n  },\n  {\n    \"key_0\": \"string\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"object\": \"string\",\n    \"email_address\": \"string\",\n    \"status\": \"string\",\n    \"created_at\": 1020\n  },\n  {\n    \"id\": \"string\",\n    \"object\": \"string\",\n    \"email_address\": \"string\",\n    \"status\": \"string\",\n    \"created_at\": 9817\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a295dc16-4c6a-4e34-9610-1a22026f0812",
+          "name": "Revoke an invitation",
+          "request": {
+            "name": "Revoke an invitation",
+            "description": {},
+            "url": {
+              "path": [
+                "invitations",
+                ":invitation_id",
+                "revoke"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "invitation_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a847c1fe-174f-42d8-a8fa-58126dfd79a1",
+              "name": "The revoked invitation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invitations",
+                    ":invitation_id",
+                    "revoke"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invitation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"object\": \"string\",\n  \"email_address\": \"string\",\n  \"status\": \"string\",\n  \"created_at\": 8444\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.clerk.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5e6189da-0753-4fda-85f1-1d26dc1cd2cc",
+    "name": "Clerk Backend Allowlist & Blocklist Invitations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Clerk Backend API manages Clerk's authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk's published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.\n\nContact Support:\n Name: Clerk",
+      "type": "text/plain"
+    }
+  }
+}

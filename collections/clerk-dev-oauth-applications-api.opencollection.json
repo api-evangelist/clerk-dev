@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clerk Backend Allowlist & Blocklist OAuth Applications API",
+    "version": "2026-05-12"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OAuth Applications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all OAuth applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/oauth_applications"
+          },
+          "docs": "List all OAuth applications"
+        },
+        {
+          "info": {
+            "name": "Create an OAuth application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/oauth_applications",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an OAuth application"
+        },
+        {
+          "info": {
+            "name": "Retrieve an OAuth application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/oauth_applications/:oauth_application_id",
+            "params": [
+              {
+                "name": "oauth_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve an OAuth application"
+        },
+        {
+          "info": {
+            "name": "Update an OAuth application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.clerk.com/v1/oauth_applications/:oauth_application_id",
+            "params": [
+              {
+                "name": "oauth_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an OAuth application"
+        },
+        {
+          "info": {
+            "name": "Delete an OAuth application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.clerk.com/v1/oauth_applications/:oauth_application_id",
+            "params": [
+              {
+                "name": "oauth_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an OAuth application"
+        },
+        {
+          "info": {
+            "name": "Rotate an OAuth application client secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/oauth_applications/:oauth_application_id/rotate_secret",
+            "params": [
+              {
+                "name": "oauth_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Rotate an OAuth application client secret"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clerk Backend Allowlist & Blocklist JWKS API",
+    "version": "2026-05-12"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "JWKS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve the JSON Web Key Set",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/jwks"
+          },
+          "docs": "Returns the JSON Web Key Set of public keys used to verify Clerk-issued JWT signatures. This endpoint is unauthenticated and not rate limited."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

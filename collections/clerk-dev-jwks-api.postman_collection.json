@@ -1,0 +1,119 @@
+{
+  "item": [
+    {
+      "id": "ea0132ed-c6dd-4aa4-af82-2f56a0435b20",
+      "name": "JWKS",
+      "description": {
+        "content": "Public keys for verifying Clerk-issued JWTs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cf9697a2-98f0-4247-9f6b-7b3b69628e8b",
+          "name": "Retrieve the JSON Web Key Set",
+          "request": {
+            "name": "Retrieve the JSON Web Key Set",
+            "description": {
+              "content": "Returns the JSON Web Key Set of public keys used to verify Clerk-issued JWT signatures. This endpoint is unauthenticated and not rate limited.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "jwks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "328c6fed-4834-4a74-b7ed-8f26f0e2dbc4",
+              "name": "The JWKS document.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jwks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"keys\": [\n    {\n      \"key_0\": 1517.097091527857,\n      \"key_1\": 1954.6220491209388\n    },\n    {\n      \"key_0\": 4703\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.clerk.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2f302a6c-df41-416b-886c-a39bba9e6e50",
+    "name": "Clerk Backend Allowlist & Blocklist JWKS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Clerk Backend API manages Clerk's authentication and user management resources server-side: users, organizations and memberships, sessions, clients, sign-ups, JWT templates, JWKS, email/SMS verification and templates, allowlist/blocklist identifiers, invitations, SAML/enterprise connections, OAuth applications, and Svix-powered webhooks. The base URL is https://api.clerk.com/v1 and every request (except GET /jwks and the public interstitial) is authenticated with your instance Secret Key passed as `Authorization: Bearer sk_...`. This description is grounded in Clerk's published OpenAPI spec (github.com/clerk/openapi-specs, bapi) but is a curated subset covering the primary resource groups; it does not enumerate every parameter or schema property. Verify the current version-dated spec on GitHub for the authoritative contract.\n\nContact Support:\n Name: Clerk",
+      "type": "text/plain"
+    }
+  }
+}

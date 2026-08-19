@@ -1,0 +1,134 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clerk Backend Allowlist & Blocklist SAML & Enterprise Connections API",
+    "version": "2026-05-12"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SAML & Enterprise Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all SAML connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/saml_connections"
+          },
+          "docs": "List all SAML connections"
+        },
+        {
+          "info": {
+            "name": "Create a SAML connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/saml_connections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a SAML connection"
+        },
+        {
+          "info": {
+            "name": "Retrieve a SAML connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/saml_connections/:saml_connection_id",
+            "params": [
+              {
+                "name": "saml_connection_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a SAML connection"
+        },
+        {
+          "info": {
+            "name": "Update a SAML connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.clerk.com/v1/saml_connections/:saml_connection_id",
+            "params": [
+              {
+                "name": "saml_connection_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a SAML connection"
+        },
+        {
+          "info": {
+            "name": "Delete a SAML connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.clerk.com/v1/saml_connections/:saml_connection_id",
+            "params": [
+              {
+                "name": "saml_connection_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a SAML connection"
+        },
+        {
+          "info": {
+            "name": "List all enterprise connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clerk.com/v1/enterprise_connections"
+          },
+          "docs": "List all enterprise connections"
+        },
+        {
+          "info": {
+            "name": "Create an enterprise connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clerk.com/v1/enterprise_connections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an enterprise connection"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
