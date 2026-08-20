@@ -29,6 +29,15 @@ tags:
 - User Management
 - Identity
 - Sessions
+- Organization
+- SSO
+- JWT
+- MFA
+tags_raw:
+- Authentication
+- User Management
+- Identity
+- Sessions
 - Organizations
 - SSO
 - JWT
@@ -439,6 +448,8 @@ apis:
   humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
   baseURL: https://api.clerk.com/v1
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -615,6 +626,8 @@ apis:
   humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
   baseURL: https://api.clerk.com/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -659,6 +672,8 @@ apis:
   humanURL: https://clerk.com/docs/reference/backend-api/tag/Users
   baseURL: https://api.clerk.com/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
