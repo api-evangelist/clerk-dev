@@ -10,6 +10,18 @@ description: Clerk is a complete authentication and user management platform for
   https://api.clerk.com/v1, secret-key authenticated) manages these resources
   server-side, the Frontend API drives client auth flows, and change events are
   delivered as Svix-powered HTTP webhooks.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
